@@ -1,0 +1,10 @@
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    .main-content-con{
+        flex-grow: 1;
+        overflow: auto;
+    }
+}

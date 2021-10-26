@@ -1,0 +1,38 @@
+* {
+	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $dk-grey;
+	min-height: 100vh;
+    line-height: 1;
+    font-size: 1.2rem;
+    font-family: $main-font;
+    color: $main-text-color;
+}
+
+a {
+	text-decoration: none;
+	color: $main-text-color;
+}
+
+button{
+    font-family: $main-font;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    border-radius:8px;
+    color: $main-text-color;
+    background-color: $green;
+    padding: 0.5rem 1rem;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+input {
+    border: 2px solid #dddddd;
+    border-radius:2px;
+    padding: 0.5rem 1rem;
+    margin: 0;
+}

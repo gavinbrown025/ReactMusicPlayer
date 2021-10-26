@@ -1,0 +1,13 @@
+$green: rgb(0, 211, 141);
+$black: rgb(10, 10, 10);
+$dk-grey:rgb(30, 30, 30);;
+
+$main-text-color:#efefef;
+
+
+$main-font:'montserrat', arial, helvetica;
+
+
+@mixin transition($prop: all, $time: 200ms) {
+    transition: $prop $time ease-in-out;
+}
