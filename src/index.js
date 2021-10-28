@@ -1,10 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+import { DataLayer } from "./store/DataLayer";
+import reducer, { initialState } from "./store/reducer";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+	<React.StrictMode>
+		<DataLayer initialState={initialState} reducer={reducer}>
+			<App />
+		</DataLayer>
+	</React.StrictMode>,
+	document.getElementById('root')
+)

@@ -1,11 +1,17 @@
-const MainUser = ({ mainUser }) => {
+import { useDataLayerValue } from '../../store/DataLayer'
+import { Link } from "react-router-dom";
+
+import './MainUser.scss'
+
+const MainUser = () => {
+    const [{ user }] = useDataLayerValue()
 	return (
-		<div className='main-user'>
-      <div className='user-img'>
-			  <img src="" alt='' />
-      </div>
-			<h4>Gavin Brown</h4>
-		</div>
+		<Link to={'/'} className='main-user'>
+			<h4>{ user.name.split(' ')[0]}</h4>
+			<div className='user-img'>
+				<img src={ user.image } alt='' />
+			</div>
+		</Link>
 	)
 }
 

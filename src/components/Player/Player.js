@@ -1,10 +1,36 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 import SpotifyPlayer from 'react-spotify-web-playback'
 import './Player.scss'
 
+import { useDataLayerValue } from '../../store/DataLayer'
+
 const Player = ({ accessToken, trackUri }) => {
+    const [{ token }, dispatch] = useDataLayerValue()
+
 	const [play, setPlay] = useState(false)
+    const [playingTrack, setPlayingTrack] = useState()
+    const [lyrics, setLyrics] = useState('')
+
+    useEffect(() => {
+		if (!playingTrack) return
+		axios
+			.get('http://localhost:5000/lyrics', {
+				params: {
+					track: playingTrack.title,
+					artist: playingTrack.artist,
+				},
+			})
+			.then((res) => {
+				setLyrics(res.data.lyrics)
+			})
+	}, [playingTrack])
+
+	const chooseTrack = (track) => {
+		setPlayingTrack(track)
+		setLyrics()
+	}
 
 	useEffect(() => {
 		setPlay(true)
@@ -12,7 +38,7 @@ const Player = ({ accessToken, trackUri }) => {
 
 	if (!accessToken) return null
 	return (
-		<div className='main-player'>
+		<div className='player'>
 			<SpotifyPlayer
 				token={accessToken}
 				showSaveIcon

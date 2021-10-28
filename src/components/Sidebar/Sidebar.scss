@@ -1,0 +1,42 @@
+@import '../../styles/vars.scss';
+
+.sidebar{
+    height: calc(100vh - 96px);
+    background: #000;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+nav, .my-playlists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    ul {
+        width: 80%;
+        border-bottom: 2px solid rgb(83, 84, 85);
+        padding: 0.5rem;
+        li {
+            padding: .75rem;
+            cursor: pointer;
+            transition: all 200ms ease;
+            &:hover{
+                background: $dk-grey;
+            }
+        }
+    }
+}
+
+.my-playlists{
+    font-size: .9rem;
+    overflow:auto;
+}
+
+.player-preview{
+    height: 268px;
+    background: rgb(70, 68, 68);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

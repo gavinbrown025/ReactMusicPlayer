@@ -1,4 +1,25 @@
 .search-form{
+    height: 3rem;
+    margin-right: 1.5rem;
     display: flex;
+    flex-grow: 1;
     align-items: center;
+    justify-content: center;
+    a{
+        position: relative;
+        height: 100%;
+        max-width: 500px;
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        input{
+            width:100%;
+        }
+        #search-icon{
+            position: absolute;
+            height: 50%;
+            right: .5rem;
+            cursor:auto;
+        }
+    }
 }

@@ -2,11 +2,11 @@ import './Header.scss'
 import SearchForm from '../Search/SearchForm'
 import MainUser from './MainUser'
 
-const Header = ({ spotifyApi, setSearchResults, setShowSearch, mainUser }) => {
+const Header = () => {
     return (
         <header>
-            <MainUser mainUser={mainUser} />
-            <SearchForm setShowSearch={setShowSearch} setSearchResults={setSearchResults} spotifyApi={spotifyApi} />
+            <SearchForm />
+            <MainUser />
         </header>
     )
 }

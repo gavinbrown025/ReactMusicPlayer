@@ -1,11 +1,10 @@
 //*imrs
-import React, { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import axios from 'axios'
+import { useDataLayerValue } from '../store/DataLayer'
 
 const useAuth = (code) => {
-	const [accessToken, setAccessToken] = useState()
-	const [refreshToken, setRefreshToken] = useState()
-	const [expiresIn, setExpiresIn] = useState()
+    const [{ token }, dispatch] = useDataLayerValue()
 
 	useEffect(() => {
 		axios
@@ -13,9 +12,14 @@ const useAuth = (code) => {
 				code,
 			})
 			.then((res) => {
-				setAccessToken(res.data.accessToken)
-				setRefreshToken(res.data.refreshToken)
-				setExpiresIn(res.data.expiresIn)
+                dispatch({
+                    type: 'SET_TOKEN',
+                    token: {
+                        accessToken: res.data.accessToken,
+                        refreshToken: res.data.refreshToken,
+                        expiresIn: res.data.expiresIn,
+                    },
+                })
 				window.history.pushState({}, null, '/') //* clears browser url
 			})
 			.catch((err) => {
@@ -24,27 +28,34 @@ const useAuth = (code) => {
 			})
 	}, [code])
 
+    //return token.accessToken
+
 	useEffect(() => {
-		if (!refreshToken || !expiresIn) return //* only run if they have value
+		if (!token.refreshToken || !token.expiresIn) return //* only run if they have value
 		const interval = setInterval(() => {
 			axios
 				.post('http://localhost:5000/refresh', {
-					refreshToken,
+					refreshToken: token.refreshToken,
 				})
 				.then((res) => {
-					setAccessToken(res.data.accessToken)
-					setExpiresIn(res.data.expiresIn)
+                    dispatch({
+                        type: 'SET_TOKEN',
+                        token: {
+                            accessToken: res.data.accessToken,
+                            refreshToken: res.data.refreshToken,
+                            expiresIn: res.data.expiresIn,
+                        },
+                    })
 				})
 				.catch((err) => {
 					window.location = '/' //* sends back to root
 				})
-		}, (expiresIn - 60) * 1000)  //* refresh 1 minute before expiry(converted to ms)
+		}, (token.expiresIn - 60) * 1000)  //* refresh 1 minute before expiry(converted to ms)
 
     return () => clearInterval(interval)
 
-	}, [refreshToken, expiresIn]) //* restart timer when these change
+	}, [token.refreshToken, token.expiresIn]) //* restart timer when these change
 
-	return accessToken
 }
 
 export default useAuth
