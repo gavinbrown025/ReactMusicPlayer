@@ -13,6 +13,10 @@ body {
     color: $main-text-color;
 }
 
+ul,ol{
+    list-style: none;
+}
+
 a {
 	text-decoration: none;
 	color: $main-text-color;
@@ -31,8 +35,11 @@ button{
 }
 
 input {
-    border: 2px solid #dddddd;
-    border-radius:2px;
+    height: 100%;
+    color: $main-text-color;
+    background: #000;
+    border: 0px solid #dddddd;
+    border-radius:50px;
     padding: 0.5rem 1rem;
     margin: 0;
 }

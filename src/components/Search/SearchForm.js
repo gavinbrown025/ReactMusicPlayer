@@ -1,17 +1,27 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+
+import { useDataLayerValue } from '../../store/DataLayer'
+
+import { SearchSvg } from '../Icons/Icons'
 import './SearchForm.scss'
 
-const SearchForm = ({ spotifyApi, setSearchResults, setShowSearch }) => {
+const SearchForm = () => {
+	const [{spotify}, dispatch] = useDataLayerValue()
+
 	const [search, setSearch] = useState('')
-	const [foundTracks, setFoundTracks] = useState()
-	const [foundArtists, setFoundArtists] = useState()
-	const [foundAlbums, setFoundAlbums] = useState()
+	const [foundTracks, setFoundTracks] = useState([])
+	const [foundArtists, setFoundArtists] = useState([])
+	const [foundAlbums, setFoundAlbums] = useState([])
 
 	useEffect(() => {
-		setSearchResults({
-			tracks: foundTracks || 'No Tracks Found',
-			artists: foundArtists || 'No Artists Found',
-			albums: foundAlbums || 'No Albums Found',
+		dispatch({
+			type: 'SET_SEARCH_RESULTS',
+			searchResults: {
+				tracks: foundTracks,
+				artists: foundArtists,
+				albums: foundAlbums,
+			},
 		})
 	}, [foundTracks, foundArtists, foundAlbums])
 
@@ -25,14 +35,10 @@ const SearchForm = ({ spotifyApi, setSearchResults, setShowSearch }) => {
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault()
-		setShowSearch(true)
-
 		if (!search.length) return
 
-		spotifyApi.searchTracks(search).then((res) => {
-			if (res.body.tracks.items.length === 0) {
-				return setFoundTracks('No Tracks Found')
-			}
+		spotify.searchTracks(search).then((res) => {
+			if (res.body.tracks.items.length === 0) return
 			setFoundTracks(
 				res.body.tracks.items.map((track) => {
 					const albumCovers = sortImageSize(track.album.images)
@@ -59,10 +65,9 @@ const SearchForm = ({ spotifyApi, setSearchResults, setShowSearch }) => {
 			)
 		})
 
-		spotifyApi.searchArtists(search).then((res) => {
-			if (res.body.artists.items.length === 0) {
-				return setFoundArtists('No Artists Found')
-			}
+		spotify.searchArtists(search).then((res) => {
+			if (res.body.artists.items.length === 0) return
+
 			setFoundArtists(
 				res.body.artists.items.map((artist) => {
 					const artistImages = sortImageSize(artist.images)
@@ -80,10 +85,9 @@ const SearchForm = ({ spotifyApi, setSearchResults, setShowSearch }) => {
 			)
 		})
 
-		spotifyApi.searchAlbums(search).then((res) => {
-			if (res.body.albums.items.length === 0) {
-				return setFoundAlbums('No Albums Found')
-			}
+		spotify.searchAlbums(search).then((res) => {
+			if (res.body.albums.items.length === 0) return
+
 			setFoundAlbums(
 				res.body.albums.items.map((album) => {
 					const albumCovers = sortImageSize(album.images)
@@ -107,12 +111,12 @@ const SearchForm = ({ spotifyApi, setSearchResults, setShowSearch }) => {
 	}
 
 	return (
-		<div className='container'>
-			<form className='search-form' onSubmit={onSubmitHandler}>
+		<form className='search-form' onSubmit={onSubmitHandler}>
+			<Link to={'search'}>
 				<input type='text' onChange={(e) => setSearch(e.target.value)} />
-				<button type='submit'>Search</button>
-			</form>
-		</div>
+				<SearchSvg />
+			</Link>
+		</form>
 	)
 }
 
