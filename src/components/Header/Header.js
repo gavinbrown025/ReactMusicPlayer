@@ -1,5 +1,5 @@
 import './Header.scss'
-import SearchForm from '../Search/SearchForm'
+import SearchForm from './SearchForm'
 import MainUser from './MainUser'
 
 const Header = () => {

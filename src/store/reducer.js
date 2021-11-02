@@ -18,14 +18,26 @@ export const initialState = {
 	recommended: {
         tracks: [],
         artists: [],
+        recommended: [],
     },
-	playing: false,
-	item: null,
 	searchResults: {
 		tracks: [],
 		artists: [],
 		albums: [],
 	},
+    selectedArtist: {},
+    selectedAlbum: {},
+	isPlaying: false,
+    currentlyPlaying: {
+        track: {},
+        artist: {},
+        album: {},
+    },
+	queue: {
+        type: 'Related',
+        tracks: []
+    },
+    playerOffset: 0
 }
 
 const reducer = (state, action) => {
@@ -62,6 +74,32 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			recommended: action.recommended,
+		}
+	}
+	if (action.type === 'SET_QUEUE') {
+		return {
+			...state,
+			queue: action.queue,
+            playerOffset: 0 || action.offset,
+            isPlaying: action.play,
+		}
+	}
+	if (action.type === 'SET_PLAY') {
+		return {
+			...state,
+            isPlaying: action.isPlaying
+		}
+	}
+	if (action.type === 'SET_CURRENT_TRACK') {
+		return {
+			...state,
+            currentlyPlaying: action.currentlyPlaying
+		}
+	}
+	if (action.type === 'SET_PLAYER_OFFSET') {
+		return {
+			...state,
+            playerOffset: action.playerOffset
 		}
 	}
 	return state

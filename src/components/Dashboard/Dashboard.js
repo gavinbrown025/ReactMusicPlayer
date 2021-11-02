@@ -5,14 +5,16 @@ import SetUserData from '../../store/SetUserData'
 
 import './Dashboard.scss'
 
+import Search from '../Routes/SearchView'
+import Home from '../Routes/HomeView'
+import Queue from '../Routes/QueueView'
+
 import Header from '../Header/Header'
 import Sidebar from '../Sidebar/Sidebar'
 import Logo from '../Logo/Logo'
 
-import Search from '../Routes/SearchView'
-import Home from '../Routes/HomeView'
-
 import Player from '../Player/Player'
+
 
 const Dashboard = ({ code }) => {
 	useAuth(code)
@@ -26,12 +28,11 @@ const Dashboard = ({ code }) => {
 				<Sidebar />
 				<main className='main-content-con'>
 					<Switch>
-						{/* <Home /> */}
 						<Route component={Home} path='/' exact/>
 						<Route component={Search} path='/search' />
+						<Route component={Queue} path='/queue' />
 						{/* <PlayLists /> */}
 						{/* <Artist /> */}
-						{/* <Queue /> */}
 					</Switch>
 				</main>
 				<Player />
