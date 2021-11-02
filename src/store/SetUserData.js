@@ -1,83 +1,92 @@
 import { useDataLayerValue } from './DataLayer'
 import { useEffect } from 'react'
+import FormatData from './FormatData'
 
 const SetUserData = () => {
 	const [{ token, spotify }, dispatch] = useDataLayerValue()
 
-	const sortImageSize = (images) => {
-		if (images.length < 2) {
-			let setImages = [{ url: null }, { url: null }, { url: null }]
-			return setImages
-		}
-		return images.sort((a, b) => a.height - b.height)
-	}
-
-	useEffect(async () => {
+	useEffect(() => {
 		if (!token.accessToken) return
 		spotify.setAccessToken(token.accessToken)
 
-		const userData = await spotify.getMe()
-		await dispatch({
-			type: 'SET_USER',
-			user: {
-				id: userData.body.id,
-				name: userData.body.display_name,
-				image: userData.body.images[0].url,
-			},
-		})
-
-		const playlists = await spotify.getUserPlaylists(userData.id)
-		await dispatch({
-			type: 'SET_PLAYLISTS',
-			myPlaylists: playlists.body.items,
-		})
-
-		const trackData = await spotify.getMyTopTracks()
-		const topTracks = trackData.body.items.map((track) => {
-			const albumCovers = sortImageSize(track.album.images)
-			return {
-				track: {
-					name: track.name,
-					uri: track.uri,
+		const setData = async () => {
+			const userData = await spotify.getMe()
+			await dispatch({
+				type: 'SET_USER',
+				user: {
+					id: userData.body.id,
+					name: userData.body.display_name,
+					image: userData.body.images[0].url,
 				},
-				artist: {
-					name: track.artists[0].name,
-					uri: track.artists[0].uri,
-				},
-				album: {
-					name: track.album.name,
-					uri: track.album.uri,
-					cover: {
-						thumb: albumCovers[0].url,
-						small: albumCovers[1].url,
-						large: albumCovers[2].url,
-					},
-				},
-			}
-		})
+			})
 
-		const artistData = await spotify.getMyTopArtists()
-		const topArtists = await artistData.body.items.map((artist) => {
-			const artistImages = sortImageSize(artist.images)
-			return {
-				id: artist.id,
-				name: artist.name,
-				uri: artist.uri,
-				cover: {
-					thumb: artistImages[0].url,
-					small: artistImages[1].url,
-					large: artistImages[2].url,
-				},
-			}
-		})
+			const playlists = await spotify.getUserPlaylists(userData.id)
+			await dispatch({
+				type: 'SET_PLAYLISTS',
+				myPlaylists: playlists.body.items,
+			})
 
-		await dispatch({
-			type: 'SET_RECOMMENDED',
-			recommended: {
-				tracks: topTracks,
-				artists: topArtists,
-			},
-		})
+			const trackData = await spotify.getMyTopTracks()
+			const topTracks = FormatData({
+				type: 'FORMAT_TRACKS',
+				data: trackData.body.items,
+			})
+
+			const artistData = await spotify.getMyTopArtists()
+			const topArtists = FormatData({
+				type: 'FORMAT_ARTISTS',
+				data: artistData.body.items,
+			})
+
+			const recommendedData = await spotify.getRecommendations({
+				min_energy: 0.4,
+				seed_artists: [topArtists[0].id, topArtists[1].id],
+				min_popularity: 10,
+			})
+			const recommendedSongs = FormatData({
+				type: 'FORMAT_TRACKS',
+				data: recommendedData.body.tracks,
+			})
+			dispatch({
+				type: 'SET_RECOMMENDED',
+				recommended: {
+					tracks: topTracks,
+					artists: topArtists,
+					recommended: recommendedSongs
+				},
+			})
+
+            const recentSongData = await spotify.getMyRecentlyPlayedTracks({limit:1})
+            const mostRecentSong = FormatData({
+                type: 'FORMAT_TRACKS',
+                data: [recentSongData.body.items[0].track]
+            })
+            dispatch({
+				type: 'SET_CURRENT_TRACK',
+				currentlyPlaying: mostRecentSong[0],
+			})
+
+            const mostRecentSongRadioData = await spotify.getRecommendations({
+                min_energy: 0.4,
+                seed_artists: [mostRecentSong[0].artist.id],
+                min_popularity: 10,
+            })
+            const mostRecentSongRadio = FormatData({
+                type: 'FORMAT_TRACKS',
+                data: mostRecentSongRadioData.body.tracks,
+            })
+
+            dispatch({
+                type: 'SET_QUEUE',
+                queue: {
+                    type: 'relative',
+                    tracks: [mostRecentSong[0], ...mostRecentSongRadio],
+                },
+                play: false
+            })
+		}
+
+		setData()
 	}, [token.accessToken])
 }
 

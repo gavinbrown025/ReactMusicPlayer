@@ -12,6 +12,9 @@ body {
     font-family: $main-font;
     color: $main-text-color;
 }
+*::-webkit-scrollbar{
+    display: none;
+}
 
 ul,ol{
     list-style: none;

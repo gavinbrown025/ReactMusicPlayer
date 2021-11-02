@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react'
-
 import './SearchView.scss'
 
 import { useDataLayerValue } from '../../store/DataLayer'
-
 
 import TrackResult from '../Search/TrackResult'
 import ArtistResult from '../Search/ArtistResult'
@@ -11,7 +8,7 @@ import AlbumResult from '../Search/AlbumResult'
 
 const SearchView = ({ chooseTrack }) => {
 
-    const [{ searchResults }, dispatch] = useDataLayerValue()
+    const [{ searchResults }] = useDataLayerValue()
 
 	return (
 		<div className='search-results-con'>
@@ -36,7 +33,7 @@ const SearchView = ({ chooseTrack }) => {
 				<h3 className='search-results-title'>Albums</h3>
 				{!searchResults.albums.length === 0 ?
                     <h3>No Albums Found</h3> :
-                    searchResults.albums.map((album) => 
+                    searchResults.albums.map((album) =>
                         <AlbumResult key={album.uri} album={album} />
                     )}
 			</div>

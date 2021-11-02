@@ -6,7 +6,7 @@ const MyPlaylists = () => {
 		<div className='my-playlists'>
 			<ul>
 				{myPlaylists.map((playlist) => (
-					<li>{playlist.name}</li>
+					<li key={playlist.uri}>{playlist.name}</li>
 				))}
 			</ul>
 		</div>
