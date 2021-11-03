@@ -56,34 +56,32 @@ const SetUserData = () => {
 				},
 			})
 
-            const recentSongData = await spotify.getMyRecentlyPlayedTracks({limit:1})
-            const mostRecentSong = FormatData({
-                type: 'FORMAT_TRACKS',
-                data: [recentSongData.body.items[0].track]
-            })
-            dispatch({
-				type: 'SET_CURRENT_TRACK',
-				currentlyPlaying: mostRecentSong[0],
-			})
+            //* get most recent song and make a queue of reccomendations
+            //! works but player has bug and cant change song when paused
+            // const recentSongData = await spotify.getMyRecentlyPlayedTracks({limit:1})
+            // const mostRecentSong = FormatData({
+            //     type: 'FORMAT_TRACKS',
+            //     data: [recentSongData.body.items[0].track]
+            // })
 
-            const mostRecentSongRadioData = await spotify.getRecommendations({
-                min_energy: 0.4,
-                seed_artists: [mostRecentSong[0].artist.id],
-                min_popularity: 10,
-            })
-            const mostRecentSongRadio = FormatData({
-                type: 'FORMAT_TRACKS',
-                data: mostRecentSongRadioData.body.tracks,
-            })
+            // const mostRecentSongRadioData = await spotify.getRecommendations({
+            //     min_energy: 0.4,
+            //     seed_artists: [mostRecentSong[0].artist.id],
+            //     min_popularity: 10,
+            // })
+            // const mostRecentSongRadio = FormatData({
+            //     type: 'FORMAT_TRACKS',
+            //     data: mostRecentSongRadioData.body.tracks,
+            // })
 
-            dispatch({
-                type: 'SET_QUEUE',
-                queue: {
-                    type: 'relative',
-                    tracks: [mostRecentSong[0], ...mostRecentSongRadio],
-                },
-                play: false
-            })
+            // dispatch({
+            //     type: 'SET_QUEUE',
+            //     queue: {
+            //         type: 'relative',
+            //         tracks: [mostRecentSong[0], ...mostRecentSongRadio],
+            //     },
+            //     play: false
+            // })
 		}
 
 		setData()

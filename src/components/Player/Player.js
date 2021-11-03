@@ -20,7 +20,6 @@ const styles = {
 const Player = () => {
 	const [{ spotify, token, queue, isPlaying, currentlyPlaying, playerOffset }, dispatch] = useDataLayerValue()
 	const [lyrics, setLyrics] = useState('')
-    const [queueUris, setQueueUris] = useState([])
 
 	useEffect(() => {
 		if (!currentlyPlaying) return
@@ -36,18 +35,14 @@ const Player = () => {
 			})
 	}, [currentlyPlaying])
 
-    useEffect(() => {
-        setQueueUris(queue.tracks.map((track) => track.track.uri))
-    }, [queue])
-
 	const playerCallback = async (state) => {
-		!state.isPlaying && dispatch({
-			type: 'SET_PLAY',
-			isPlaying: false,
-		})
-        if (!currentlyPlaying.track.id || !state.track.id) return
-		if (currentlyPlaying.track.id !== state.track.id) {
-            console.log('track change')
+        dispatch({
+            type: 'SET_PLAY',
+            isPlaying: state.isPlaying,
+        })
+
+        if (!currentlyPlaying.track.id) return
+        if (state.type === 'track_update') {
             const newCurrentData = await spotify.getTracks([state.track.id])
             const newCurrentTrack = FormatData({
 				type: 'FORMAT_TRACKS',
@@ -58,6 +53,7 @@ const Player = () => {
 				currentlyPlaying: newCurrentTrack[0],
 			})
 		}
+
 	}
 
 	if (!token.accessToken) return null
@@ -66,15 +62,14 @@ const Player = () => {
 			<SpotifyPlayer
                 token={token.accessToken}
                 showSaveIcon
-                uris={queueUris}
+                uris={queue.tracks.map((track) => track.track.uri)}
                 play={isPlaying}
                 callback={(state) => playerCallback(state)}
-                styles={styles}
                 offset={playerOffset}
+                styles={styles}
+                magnifySliderOnHover={true}
             />
 		</div>
 	)
 }
-
-// offset={currentlyPlaying.index}
 export default Player

@@ -1,0 +1,94 @@
+@import '../../styles/vars.scss';
+
+.queue-list-con {
+	padding-top: 1rem;
+	cursor: default;
+	h3 {
+		font-size: 0.9rem;
+	}
+}
+
+.queue-list-header {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 0;
+	:first-child,
+	:nth-child(2) {
+		width: 45%;
+	}
+	:nth-child(3) {
+		width: 10%;
+		text-align: right;
+	}
+}
+.playlist-header {
+	display: flex;
+	height: 25vh;
+	align-items: center;
+	img {
+		height: 100%;
+	}
+	.playlist-meta {
+		padding: 1rem;
+		h2 {
+			margin-bottom: .5rem;
+		}
+		p,
+		span {
+			font-size: 0.9rem;
+		}
+		span {
+			font-weight: 600;
+		}
+	}
+}
+
+.now-playing {
+	padding-top: 1rem;
+	h3 {
+		font-size: 0.9rem;
+		padding: 0.5rem 0;
+	}
+}
+
+.queue-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 4rem;
+	padding: 0.5rem;
+	font-size: 0.9rem;
+	transition: all 100ms ease-in-out;
+	&:hover:not(.is-playing) {
+		cursor: pointer;
+		transform: scale(1.005);
+		background: $black;
+	}
+	.track-meta {
+		width: 45%;
+		display: flex;
+		height: 100%;
+		img {
+			height: 3rem;
+			width: 3rem;
+			margin-right: 1rem;
+		}
+		.track-name {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+		}
+	}
+	.album-name {
+		width: 45%;
+	}
+	.track-duration {
+		width: 10%;
+		text-align: right;
+	}
+	&.is-playing {
+		color: $green;
+		background: $black;
+	}
+}

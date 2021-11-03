@@ -1,0 +1,23 @@
+._ContentRSWP {
+    width: 100%;
+    position: relative;
+    flex-direction: row;
+    > div:first-child {
+        width: auto;
+    }
+    ._ControlsRSWP{
+        width: 100%;
+    }
+    ._ActionsRSWP{
+        position: absolute;
+        right: 1rem;
+    }
+}
+.rswp__active{
+    img {display: none;}
+}
+.__14p65xk{
+    position: absolute;
+    left: 0;
+    width: auto;
+}

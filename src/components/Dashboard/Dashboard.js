@@ -7,7 +7,7 @@ import './Dashboard.scss'
 
 import Search from '../Routes/SearchView'
 import Home from '../Routes/HomeView'
-import Queue from '../Routes/QueueView'
+import Queue from '../Queue/QueueView'
 
 import Header from '../Header/Header'
 import Sidebar from '../Sidebar/Sidebar'

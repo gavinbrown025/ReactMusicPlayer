@@ -6,15 +6,24 @@ const sortImageSize = (images) => {
 	return images.sort((a, b) => a.height - b.height)
 }
 
+const formatTime = (time) => {
+    time = Math.floor(time / 1000)
+    let minute = Math.floor(time / 60)
+    let second = Math.floor(time - minute * 60)
+    second = second > 9 ? second : `0${second}`
+    return `${minute}:${second}`
+}
+
 const FormatData = ({ type, data }) => {
-	if (type === 'FORMAT_TRACKS')
-		return data.map((track) => {
+    if (type === 'FORMAT_TRACKS')
+    return data.map((track) => {
 			const albumCovers = sortImageSize(track.album.images)
 			return {
 				track: {
 					id: track.id,
                     name: track.name,
 					uri: track.uri,
+                    duration: formatTime(track.duration_ms),
 				},
 				artist: {
 					id: track.artists[0].id,
@@ -57,6 +66,8 @@ const FormatData = ({ type, data }) => {
 				id: album.id,
 				name: album.name,
 				uri: album.uri,
+                totalTracks: album.total_tracks,
+                releaseDate: album.release_date,
 				cover: {
 					thumb: albumCovers[0].url,
 					small: albumCovers[1].url,

@@ -12,17 +12,17 @@ const Track = ({ track }) => {
 			min_popularity: 10,
 		})
 
-		const trackRadio = FormatData({
+		const trackRadio = await FormatData({
 			type: 'FORMAT_TRACKS',
 			data: trackRadioData.body.tracks,
 		})
-
-		dispatch({
+		await dispatch({
 			type: 'SET_QUEUE',
 			queue: {
 				type: 'relative',
 				tracks: [track, ...trackRadio],
 			},
+            play: true
 		})
 	}
 

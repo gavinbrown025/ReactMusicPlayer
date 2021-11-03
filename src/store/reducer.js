@@ -16,32 +16,35 @@ export const initialState = {
 	},
 	myPlaylists: [],
 	recommended: {
-        tracks: [],
-        artists: [],
-        recommended: [],
-    },
+		tracks: [],
+		artists: [],
+		recommended: [],
+	},
 	searchResults: {
 		tracks: [],
 		artists: [],
 		albums: [],
 	},
-    selectedArtist: {},
-    selectedAlbum: {},
+	selectedArtist: {
+        topTracks: [],
+        albums: [],
+    },
+	selectedAlbum: {},
 	isPlaying: false,
-    currentlyPlaying: {
-        track: {},
-        artist: {},
-        album: {},
-    },
+	currentlyPlaying: {
+		track: {},
+		artist: {},
+		album: {},
+	},
 	queue: {
-        type: 'Related',
-        tracks: []
-    },
-    playerOffset: 0
+        name:'Queue',
+		type: 'relative',
+		tracks: [],
+	},
+	playerOffset: 0,
 }
 
 const reducer = (state, action) => {
-	console.log(action)
 	if (action.type === 'SET_USER') {
 		return {
 			...state,
@@ -80,26 +83,33 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			queue: action.queue,
-            playerOffset: 0 || action.offset,
-            isPlaying: action.play,
+			isPlaying: action.play,
+			currentlyPlaying: action.queue.tracks[0],
+			playerOffset: 0,
 		}
 	}
 	if (action.type === 'SET_PLAY') {
 		return {
 			...state,
-            isPlaying: action.isPlaying
+			isPlaying: action.isPlaying,
 		}
 	}
 	if (action.type === 'SET_CURRENT_TRACK') {
 		return {
 			...state,
-            currentlyPlaying: action.currentlyPlaying
+			currentlyPlaying: action.currentlyPlaying,
 		}
 	}
 	if (action.type === 'SET_PLAYER_OFFSET') {
 		return {
 			...state,
-            playerOffset: action.playerOffset
+			playerOffset: action.playerOffset,
+		}
+	}
+	if (action.type === 'SET_ARTIST') {
+		return {
+			...state,
+			selectedArtist: action.selectedArtist,
 		}
 	}
 	return state

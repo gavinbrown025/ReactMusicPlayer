@@ -15,7 +15,6 @@ nav, .my-playlists {
     align-items: center;
     ul {
         width: 80%;
-        border-bottom: 2px solid rgb(83, 84, 85);
         padding: 0.5rem;
         li {
             padding: .75rem;
@@ -27,16 +26,24 @@ nav, .my-playlists {
         }
     }
 }
+nav ul{
+    border-bottom: 2px solid rgb(83, 84, 85);
+}
 
 .my-playlists{
     font-size: .9rem;
     overflow:overlay;
 }
 
-.player-preview{
-    height: 268px;
-    background: rgb(70, 68, 68);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.player-preview {
+    padding-top: 1rem;
+    min-height: 240px;
+    overflow: hidden;
+    border-top: 2px solid rgb(83, 84, 85);
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
+
