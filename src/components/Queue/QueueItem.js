@@ -1,6 +1,5 @@
 import { useDataLayerValue } from '../../store/DataLayer'
 import React, { useState, useEffect } from 'react'
-import './QueueItem.scss'
 
 const QueueItem = ({ track, index }) => {
 	const [{ currentlyPlaying }, dispatch] = useDataLayerValue()
@@ -16,14 +15,24 @@ const QueueItem = ({ track, index }) => {
 	}, [currentlyPlaying])
 
 	const handlePlay = () => {
+		if (!index) return
 		dispatch({
-      type: 'SET_PLAYER_OFFSET',
-      playerOffset: index,
-    })
+			type: 'SET_PLAYER_OFFSET',
+			playerOffset: index,
+		})
 	}
+
 	return (
 		<li onClick={handlePlay} className={`queue-item ${isCurrent}`}>
-			{track.track.name}
+			<div className='track-meta'>
+				<img src={track.album.cover.thumb} alt='' />
+				<div className='track-name'>
+					<h4>{track.track.name}</h4>
+					<p>{track.artist.name}</p>
+				</div>
+			</div>
+			<div className='album-name'>{track.album.name}</div>
+			<div className='track-duration'>{track.track.duration}</div>
 		</li>
 	)
 }
