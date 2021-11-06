@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { useDataLayerValue } from '../../store/DataLayer'
 import FormatData from '../../store/FormatData'
@@ -8,67 +8,67 @@ import { SearchSvg } from '../Icons/Icons'
 import './SearchForm.scss'
 
 const SearchForm = () => {
-	const [{spotify}, dispatch] = useDataLayerValue()
-
+	const history = useHistory()
+	const [{ spotify, searchResults }, dispatch] = useDataLayerValue()
 	const [search, setSearch] = useState('')
-	const [foundTracks, setFoundTracks] = useState([])
-	const [foundArtists, setFoundArtists] = useState([])
-	const [foundAlbums, setFoundAlbums] = useState([])
+  const blockSubmit = (e) => e.preventDefault()
 
 	useEffect(() => {
+		if (search === '') {
+			dispatch({
+				type: 'SET_SEARCH_RESULTS',
+				searchResults: {
+					tracks: [],
+					artists: [],
+					albums: [],
+				},
+			})
+			return history.push('/')
+		}
+		history.push('/search')
+		getContent()
+	}, [search])
+
+	const getContent = async () => {
 		dispatch({
 			type: 'SET_SEARCH_RESULTS',
 			searchResults: {
-				tracks: foundTracks,
-				artists: foundArtists,
-				albums: foundAlbums,
+				tracks: await searchTracks(),
+				artists: await searchArtists(),
+				albums: await searchAlbums(),
 			},
 		})
-	}, [foundTracks, foundArtists, foundAlbums, dispatch])
-
-	const onSubmitHandler = (e) => {
-		e.preventDefault()
-		if (!search.length) return
-
-		spotify.searchTracks(search).then((res) => {
-			if (res.body.tracks.items.length === 0) return
-			spotify.searchTracks(search).then((res) => {
-                if (res.body.tracks.items.length === 0) return
-                setFoundTracks(
-                    FormatData({
-                        type: 'FORMAT_TRACKS',
-                        data: res.body.tracks.items,
-                    })
-                )
-            })
+	}
+	const searchTracks = async () => {
+		const res = await spotify.searchTracks(search)
+		if ((await res.body.tracks.items.length) === 0) return []
+		return await FormatData({
+			type: 'FORMAT_TRACKS',
+			data: res.body.tracks.items,
 		})
-
-		spotify.searchArtists(search).then((res) => {
-			if (res.body.artists.items.length === 0) return
-			setFoundArtists(
-				FormatData({
-                    type: 'FORMAT_ARTISTS',
-                    data: res.body.artists.items,
-                })
-			)
+	}
+	const searchArtists = async () => {
+		const res = await spotify.searchArtists(search)
+		if ((await res.body.artists.items.length) === 0) return []
+		return await FormatData({
+			type: 'FORMAT_ARTISTS',
+			data: res.body.artists.items,
 		})
-
-		spotify.searchAlbums(search).then((res) => {
-			if (res.body.albums.items.length === 0) return
-			setFoundAlbums(
-                FormatData({
-                    type: 'FORMAT_ALBUMS',
-                    data: res.body.albums.items,
-                })
-			)
+	}
+	const searchAlbums = async () => {
+		const res = await spotify.searchAlbums(search)
+		if ((await res.body.albums.items.length) === 0) return []
+		return await FormatData({
+			type: 'FORMAT_ALBUMS',
+			data: res.body.albums.items,
 		})
 	}
 
 	return (
-		<form className='search-form' onSubmit={onSubmitHandler}>
-			<Link to={'search'}>
-				<input type='text' onChange={(e) => setSearch(e.target.value)} />
-				<SearchSvg onSubmitHandler={onSubmitHandler}/>
+		<form className='search-form' onSubmit={blockSubmit}>
+			<Link to={searchResults.tracks.length > 0 ? 'search' : '/'}>
+				<input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Songs, Artists, and Albums' />
+				<SearchSvg />
 			</Link>
 		</form>
 	)

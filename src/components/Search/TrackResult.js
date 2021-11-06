@@ -21,9 +21,13 @@ const Track = ({ track }) => {
 			queue: {
 				type: 'relative',
 				tracks: [track, ...trackRadio],
-			},
-            play: true
+			}
 		})
+        await dispatch({
+            type: 'SET_PLAY',
+            isPlaying: true
+        })
+
 	}
 
 	return (

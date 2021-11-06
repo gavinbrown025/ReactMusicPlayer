@@ -8,6 +8,7 @@ import './Dashboard.scss'
 import Search from '../Routes/SearchView'
 import Home from '../Routes/HomeView'
 import Queue from '../Queue/QueueView'
+import Artist from '../Artist/ArtistView'
 
 import Header from '../Header/Header'
 import Sidebar from '../Sidebar/Sidebar'
@@ -31,8 +32,7 @@ const Dashboard = ({ code }) => {
 						<Route component={Home} path='/' exact/>
 						<Route component={Search} path='/search' />
 						<Route component={Queue} path='/queue' />
-						{/* <PlayLists /> */}
-						{/* <Artist /> */}
+						<Route component={Artist} path='/artist' />
 					</Switch>
 				</main>
 				<Player />

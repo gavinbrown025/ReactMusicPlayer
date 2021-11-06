@@ -35,7 +35,10 @@ const Player = () => {
 			})
 	}, [currentlyPlaying])
 
+    console.log(playerOffset)
+
 	const playerCallback = async (state) => {
+        console.log(state)
         dispatch({
             type: 'SET_PLAY',
             isPlaying: state.isPlaying,
@@ -44,16 +47,15 @@ const Player = () => {
         if (!currentlyPlaying.track.id) return
         if (state.type === 'track_update') {
             const newCurrentData = await spotify.getTracks([state.track.id])
-            const newCurrentTrack = FormatData({
+            const newCurrentTrack = await FormatData({
 				type: 'FORMAT_TRACKS',
 				data: newCurrentData.body.tracks,
 			})
-			dispatch({
+			await dispatch({
 				type: 'SET_CURRENT_TRACK',
 				currentlyPlaying: newCurrentTrack[0],
 			})
 		}
-
 	}
 
 	if (!token.accessToken) return null
@@ -61,13 +63,13 @@ const Player = () => {
 		<div className='player'>
 			<SpotifyPlayer
                 token={token.accessToken}
-                showSaveIcon
                 uris={queue.tracks.map((track) => track.track.uri)}
                 play={isPlaying}
                 callback={(state) => playerCallback(state)}
                 offset={playerOffset}
                 styles={styles}
                 magnifySliderOnHover={true}
+                showSaveIcon
             />
 		</div>
 	)

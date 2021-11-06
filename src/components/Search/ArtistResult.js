@@ -1,8 +1,11 @@
 import { useDataLayerValue } from '../../store/DataLayer'
 import FormatData from '../../store/FormatData'
+import { useHistory } from "react-router-dom";
 
 const ArtistResult = ({ artist }) => {
-	const [{ spotify, queue }, dispatch] = useDataLayerValue()
+	const [{ spotify }, dispatch] = useDataLayerValue()
+    const history = useHistory()
+
 	const handleSelection = async () => {
 		const artistAlbumsData = await spotify.getArtistAlbums(artist.id)
 		const artistAlbums = await FormatData({
@@ -14,13 +17,15 @@ const ArtistResult = ({ artist }) => {
 			type: 'FORMAT_TRACKS',
 			data: artistTopTracksData.body.tracks,
 		})
-		dispatch({
+		await dispatch({
 			type: 'SET_ARTIST',
 			selectedArtist: {
-				topTracks: artistTopTracks,
+                data: artist,
+				tracks: artistTopTracks,
 				albums: artistAlbums,
 			},
 		})
+        history.push({pathname:'artist', state: 'artist'})
 	}
 
 	return (

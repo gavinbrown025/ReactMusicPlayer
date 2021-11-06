@@ -1,4 +1,5 @@
 import { useDataLayerValue } from '../../store/DataLayer'
+import { useEffect, useState } from 'react'
 
 import './Queue.scss'
 
@@ -6,19 +7,23 @@ import QueueList from './QueueList'
 import QueueHeader from './QueueHeader'
 import NowPlaying from './NowPlaying'
 
-const QueueView = () => {
-	const [{ queue }] = useDataLayerValue()
-	console.log(queue.tracks.length)
+const QueueView = ({ location }) => {
+	const [{ queue, selectedAlbum, selectedPlaylist }] = useDataLayerValue()
+	const [selectedQueue, setSelectedQueue] = useState(queue)
+
+    useEffect(() => {
+        location.state === 'queue' && setSelectedQueue(queue)
+        location.state === 'album' && setSelectedQueue(selectedAlbum)
+        location.state === 'playlist' && setSelectedQueue(selectedPlaylist)
+    }, [location.state, queue, selectedAlbum, selectedPlaylist])
 
 	return queue.tracks.length !== 0 ? (
 		<>
-			{queue.type === 'playlist' && <QueueHeader />}
-			{queue.type === 'album' && <QueueHeader />}
-			{queue.type === 'relative' && <NowPlaying />}
-			<QueueList />
+			{location.state === 'queue' ? <NowPlaying /> : <QueueHeader selectedQueue={selectedQueue}/>}
+			<QueueList selectedQueue={selectedQueue} type={location.state} />
 		</>
 	) : (
-		<h2>No Queue</h2>
+		<h2>loading...</h2>
 	)
 }
 

@@ -30,7 +30,7 @@ const FormatData = ({ type, data }) => {
 					name: track.artists[0].name,
 					uri: track.artists[0].uri,
 				},
-				album: {
+				album : {
 					id: track.album.id,
 					name: track.album.name,
 					uri: track.album.uri,

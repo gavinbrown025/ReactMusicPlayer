@@ -1,6 +1,5 @@
 import icon from '../assets/images/no_user_icon.jpg'
 import SpotifyWebApi from 'spotify-web-api-node'
-
 export const initialState = {
 	spotify: new SpotifyWebApi({ clientId: '8a7929a12fed4285ab9840e36fb2395c' }),
 	token: {
@@ -25,11 +24,19 @@ export const initialState = {
 		artists: [],
 		albums: [],
 	},
-	selectedArtist: {
-        topTracks: [],
-        albums: [],
+    selectedPlaylist: {
+        data:{},
+        tracks: [],
     },
-	selectedAlbum: {},
+	selectedArtist: {
+        data: {},
+		tracks: [],
+		albums: [],
+	},
+	selectedAlbum: {
+        data:{},
+        tracks: [],
+    },
 	isPlaying: false,
 	currentlyPlaying: {
 		track: {},
@@ -37,7 +44,7 @@ export const initialState = {
 		album: {},
 	},
 	queue: {
-        name:'Queue',
+		name: 'Queue',
 		type: 'relative',
 		tracks: [],
 	},
@@ -83,9 +90,8 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			queue: action.queue,
-			isPlaying: action.play,
-			currentlyPlaying: action.queue.tracks[0],
-			playerOffset: 0,
+			currentlyPlaying: action.offset ? action.queue.tracks[action.offset] : action.queue.tracks[0],
+			playerOffset: action.offset ? action.offset : 0,
 		}
 	}
 	if (action.type === 'SET_PLAY') {
@@ -110,6 +116,18 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			selectedArtist: action.selectedArtist,
+		}
+	}
+	if (action.type === 'SET_SELECTED_PLAYLIST') {
+		return {
+			...state,
+			selectedPlaylist: action.selectedPlaylist,
+		}
+	}
+	if (action.type === 'SET_SELECTED_ALBUM') {
+		return {
+			...state,
+			selectedAlbum: action.selectedAlbum,
 		}
 	}
 	return state
