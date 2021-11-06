@@ -4,14 +4,14 @@
 	h2 {
 		margin-bottom: 3rem;
 	}
-    .search-results-title{
-        grid-column: 1 /-1;
-    }
 }
 
 .sub-results-con {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 	grid-template-rows: auto;
-    padding-bottom:3rem;
+	padding-bottom: 3rem;
+	.search-results-title {
+		grid-column: 1 /-1;
+	}
 }

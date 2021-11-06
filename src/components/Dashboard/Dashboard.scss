@@ -1,11 +1,11 @@
 .grid-container {
-    max-height: 100vh;
+	max-height: 100vh;
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	grid-template-columns: 240px 1fr;
-    .logo{
-        grid-area: 1/1;
-    }
+	.logo {
+		grid-area: 1/1;
+	}
 	header {
 		grid-area: 1/2;
 	}
@@ -14,19 +14,22 @@
 	}
 	.main-content-con {
 		grid-area: 2/2;
-        overflow-y: overlay;
+		overflow-y: overlay;
 	}
-    .player{
-        grid-area: 3/2;
-    }
+	.player {
+		grid-area: 3/2;
+	}
 }
 
 .main-content-con {
-    overflow: overlay;
+	> * {
+		padding: 0 3rem;
+	}
+	overflow: overlay;
 	width: 100%;
-    height: 100%;
-    padding: 0rem 3rem 1.5rem 3rem;
-    h2{
-        margin-bottom: 1.5rem;
-    }
+	height: 100%;
+	padding-bottom: 2rem;
+	h2 {
+		margin-bottom: 1.5rem;
+	}
 }

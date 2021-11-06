@@ -1,3 +1,6 @@
+import { useDataLayerValue } from '../../store/DataLayer'
+
+
 import Nav from './Nav'
 import MyPlaylists from './MyPlaylists'
 import PlayerPreview from './PlayerPreview'
@@ -5,11 +8,12 @@ import PlayerPreview from './PlayerPreview'
 import './Sidebar.scss'
 
 const Sidebar = () => {
+    const [{ currentlyPlaying }] = useDataLayerValue()
     return (
         <div className='sidebar'>
           <Nav />
           <MyPlaylists />
-          <PlayerPreview />
+          {currentlyPlaying.track.id && <PlayerPreview />}
         </div>
     )
 }

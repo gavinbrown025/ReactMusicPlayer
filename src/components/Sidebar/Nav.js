@@ -7,7 +7,7 @@ const Nav = () => {
 				<Link to={'/'}>
 					<li>Home</li>
 				</Link>
-				<Link to={'queue'}>
+				<Link to={{pathname:'queue', state:'queue'}}>
 					<li>Queue</li>
 				</Link>
 				<Link to={'search'}>
