@@ -32,12 +32,13 @@ const useAuth = (code) => {
 
 	useEffect(() => {
 		if (!token.refreshToken || !token.expiresIn) return //* only run if they have value
-		const interval = setInterval(() => {
+        const interval = setInterval(() => {
 			axios
 				.post('http://localhost:5000/refresh', {
 					refreshToken: token.refreshToken,
 				})
 				.then((res) => {
+                    console.log(res)
                     dispatch({
                         type: 'SET_TOKEN',
                         token: {
@@ -50,7 +51,7 @@ const useAuth = (code) => {
 				.catch((err) => {
 					window.location = '/' //* sends back to root
 				})
-		}, (token.expiresIn - 60) * 1000)  //* refresh 1 minute before expiry(converted to ms)
+		}, (token.expiresIn - 60) * 1)  //* refresh 1 minute before expiry(converted to ms)
 
     return () => clearInterval(interval)
 

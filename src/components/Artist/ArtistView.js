@@ -2,7 +2,7 @@ import { useDataLayerValue } from '../../store/DataLayer'
 
 import ArtistHeader from './ArtistHeader'
 import QueueList from '../Queue/QueueList'
-import AlbumResult from '../Search/AlbumResult'
+import AlbumResult from '../Results/AlbumResult'
 
 import './Artist.scss'
 

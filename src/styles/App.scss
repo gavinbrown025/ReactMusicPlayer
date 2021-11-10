@@ -13,3 +13,8 @@
     text-align: center;
 	white-space: pre;
 }
+
+.artist-link:hover, .album-link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

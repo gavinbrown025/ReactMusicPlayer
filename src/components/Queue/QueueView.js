@@ -8,19 +8,17 @@ import QueueHeader from './QueueHeader'
 import NowPlaying from './NowPlaying'
 
 const QueueView = ({ location }) => {
-	const [{ queue, selectedAlbum, selectedPlaylist }] = useDataLayerValue()
-	const [selectedQueue, setSelectedQueue] = useState(queue)
+	const [{ queue, selectedQueue }] = useDataLayerValue()
+	const [currentQueue, setCurrentQueue] = useState(queue)
 
     useEffect(() => {
-        location.state === 'queue' && setSelectedQueue(queue)
-        location.state === 'album' && setSelectedQueue(selectedAlbum)
-        location.state === 'playlist' && setSelectedQueue(selectedPlaylist)
-    }, [location.state, queue, selectedAlbum, selectedPlaylist])
+        location.state === 'queue' ? setCurrentQueue(queue) : setCurrentQueue(selectedQueue)
+    }, [location.state, queue, selectedQueue])
 
 	return queue.tracks.length !== 0 ? (
 		<>
-			{location.state === 'queue' ? <NowPlaying /> : <QueueHeader selectedQueue={selectedQueue}/>}
-			<QueueList selectedQueue={selectedQueue} type={location.state} />
+			{location.state === 'queue' ? <NowPlaying /> : <QueueHeader selectedQueue={currentQueue}/>}
+			<QueueList selectedQueue={currentQueue} type={location.state} />
 		</>
 	) : (
 		<h2>loading...</h2>

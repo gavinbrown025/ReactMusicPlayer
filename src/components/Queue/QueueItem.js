@@ -1,50 +1,55 @@
-import { useDataLayerValue } from '../../store/DataLayer'
 import React, { useState, useEffect } from 'react'
+import { useDataLayerValue } from '../../store/DataLayer'
+import useGoToSelection from '../../hooks/useGoToSelection'
 
-const QueueItem = ({ track, index, showLess, type, selectedQueue}) => {
-	const [{ currentlyPlaying, queue, selectedArtist, selectedAlbum }, dispatch] = useDataLayerValue()
+const QueueItem = ({ track, index, showLess, type, selectedQueue }) => {
+	const [{ currentlyPlaying }, dispatch] = useDataLayerValue()
 	const [isCurrent, setIsCurrent] = useState('')
+    const { goToArtist, goToAlbum } = useGoToSelection()
 
-    const styles = `queue-item ${isCurrent} ${index > 4 && showLess ? 'show-less' : ''}`
+	const styles = `queue-item ${isCurrent} ${index > 4 && showLess ? 'show-less' : ''} ${type}`
 
 	useEffect(() => {
-        if (currentlyPlaying.track.id === track.track.id) {
-            setIsCurrent('is-playing')
-		}
-		return () => {
-            setIsCurrent('')
-		}
+		if (currentlyPlaying.track.name === track.track.name && currentlyPlaying.artist.name === track.artist.name) setIsCurrent('is-playing')
+		return () => setIsCurrent('')
 	}, [currentlyPlaying])
 
-	const handlePlay = async () => {
-		if (index === null) return
-        if(type === 'artist'){
-            return dispatch({
-                type: 'SET_QUEUE',
-                queue: {
-                    tracks: selectedArtist.tracks
-                },
-                offset: index
-            })
-        }
+	const handleSelection = (e) => {
+        if(e.target.className === 'album-link') return goToAlbum(track.album)
+        if(e.target.className === 'artist-link') return goToArtist(track.artist.id)
+        handlePlay()
+    }
+
+    const handlePlay = async () => {
+        if (index === null) return // SO YOU CANT CLICK ON CURRENTLY PLAYING
+		if (type !== 'queue') {
+			return dispatch({
+				type: 'SET_QUEUE',
+				queue: {
+					tracks: selectedQueue.tracks,
+				},
+				offset: index,
+			})
+		}
 		dispatch({
 			type: 'SET_PLAYER_OFFSET',
 			playerOffset: index,
 		})
 
-        //! try to make it change tracks when paused
+		//! try to make it change tracks when paused
+		// seems to be a glitch in the npm package
 	}
 
 	return (
-		<li onClick={handlePlay} className={styles}>
+		<li onClick={handleSelection} className={styles}>
 			<div className='track-meta'>
-				<img src={track.album.cover.thumb} alt='' />
+				{type !== 'album' ? <img src={track.album.cover.thumb} alt='' /> : <div className='track-number'>{index + 1}</div> }
 				<div className='track-name'>
 					<h4>{track.track.name}</h4>
-					<p>{track.artist.name}</p>
+					{type !== 'artist' && <p className='artist-link'>{track.artist.name}</p>}
 				</div>
 			</div>
-			<div className='album-name'>{track.album.name}</div>
+			<div className='album-link'>{track.album.name}</div>
 			<div className='track-duration'>{track.track.duration}</div>
 		</li>
 	)

@@ -2,8 +2,8 @@ import { useDataLayerValue } from '../../store/DataLayer'
 
 import './HomeView.scss'
 
-import TrackResult from '../Search/TrackResult'
-import ArtistResult from '../Search/ArtistResult'
+import TrackResult from '../Results/TrackResult'
+import ArtistResult from '../Results/ArtistResult'
 
 const HomeView = () => {
 	const [{ recommended, user }] = useDataLayerValue()
