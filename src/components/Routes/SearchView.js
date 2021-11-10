@@ -2,9 +2,9 @@ import './SearchView.scss'
 
 import { useDataLayerValue } from '../../store/DataLayer'
 
-import TrackResult from '../Search/TrackResult'
-import ArtistResult from '../Search/ArtistResult'
-import AlbumResult from '../Search/AlbumResult'
+import TrackResult from '../Results/TrackResult'
+import ArtistResult from '../Results/ArtistResult'
+import AlbumResult from '../Results/AlbumResult'
 
 const SearchView = ({ chooseTrack }) => {
 

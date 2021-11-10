@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { useDataLayerValue } from '../../store/DataLayer'
-import FormatData from '../../store/FormatData'
+import { FormatTracks, FormatArtists, FormatAlbums } from '../../store/FormatData'
 
 import { SearchSvg } from '../Icons/Icons'
 import './SearchForm.scss'
 
 const SearchForm = () => {
 	const history = useHistory()
-	const [{ spotify, searchResults }, dispatch] = useDataLayerValue()
+	const [{ spotify, searchResults, focusSearch }, dispatch] = useDataLayerValue()
 	const [search, setSearch] = useState('')
-  const blockSubmit = (e) => e.preventDefault()
+	const searchInputRef = useRef()
+
+	focusSearch && searchInputRef.current.focus()
+
+	const blockSubmit = (e) => e.preventDefault()
 
 	useEffect(() => {
 		if (search === '') {
@@ -39,35 +43,35 @@ const SearchForm = () => {
 			},
 		})
 	}
+
 	const searchTracks = async () => {
 		const res = await spotify.searchTracks(search)
 		if ((await res.body.tracks.items.length) === 0) return []
-		return await FormatData({
-			type: 'FORMAT_TRACKS',
-			data: res.body.tracks.items,
-		})
+		return await FormatTracks(res.body.tracks.items)
 	}
+
 	const searchArtists = async () => {
 		const res = await spotify.searchArtists(search)
 		if ((await res.body.artists.items.length) === 0) return []
-		return await FormatData({
-			type: 'FORMAT_ARTISTS',
-			data: res.body.artists.items,
-		})
+		return await FormatArtists(res.body.artists.items)
 	}
+
 	const searchAlbums = async () => {
 		const res = await spotify.searchAlbums(search)
 		if ((await res.body.albums.items.length) === 0) return []
-		return await FormatData({
-			type: 'FORMAT_ALBUMS',
-			data: res.body.albums.items,
-		})
+		return await FormatAlbums(res.body.albums.items)
 	}
 
 	return (
 		<form className='search-form' onSubmit={blockSubmit}>
 			<Link to={searchResults.tracks.length > 0 ? 'search' : '/'}>
-				<input type='text' onChange={(e) => setSearch(e.target.value)} placeholder='Search Songs, Artists, and Albums' />
+				<input
+					ref={searchInputRef}
+					onBlur={() => dispatch({ type: 'SET_FOCUS_SEARCH', focusSearch: false })}
+					type='text'
+					onChange={(e) => setSearch(e.target.value)}
+					placeholder='Search Songs, Artists, and Albums'
+				/>
 				<SearchSvg />
 			</Link>
 		</form>

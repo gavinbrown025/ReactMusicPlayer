@@ -19,12 +19,13 @@ export const initialState = {
 		artists: [],
 		recommended: [],
 	},
+    focusSearch: false,
 	searchResults: {
 		tracks: [],
 		artists: [],
 		albums: [],
 	},
-    selectedPlaylist: {
+    selectedQueue: {
         data:{},
         tracks: [],
     },
@@ -33,10 +34,6 @@ export const initialState = {
 		tracks: [],
 		albums: [],
 	},
-	selectedAlbum: {
-        data:{},
-        tracks: [],
-    },
 	isPlaying: false,
 	currentlyPlaying: {
 		track: {},
@@ -45,7 +42,6 @@ export const initialState = {
 	},
 	queue: {
 		name: 'Queue',
-		type: 'relative',
 		tracks: [],
 	},
 	playerOffset: 0,
@@ -87,11 +83,13 @@ const reducer = (state, action) => {
 		}
 	}
 	if (action.type === 'SET_QUEUE') {
-		return {
+		let currentlyPlaying = action.offset ? action.queue.tracks[action.offset] : action.queue.tracks[0]
+        let playerOffset = action.offset ? action.offset : 0
+        return {
 			...state,
 			queue: action.queue,
-			currentlyPlaying: action.offset ? action.queue.tracks[action.offset] : action.queue.tracks[0],
-			playerOffset: action.offset ? action.offset : 0,
+			currentlyPlaying,
+			playerOffset,
 		}
 	}
 	if (action.type === 'SET_PLAY') {
@@ -118,16 +116,16 @@ const reducer = (state, action) => {
 			selectedArtist: action.selectedArtist,
 		}
 	}
-	if (action.type === 'SET_SELECTED_PLAYLIST') {
+	if (action.type === 'SET_SELECTED_QUEUE') {
 		return {
 			...state,
-			selectedPlaylist: action.selectedPlaylist,
+			selectedQueue: action.selectedQueue,
 		}
 	}
-	if (action.type === 'SET_SELECTED_ALBUM') {
+	if (action.type === 'SET_FOCUS_SEARCH') {
 		return {
 			...state,
-			selectedAlbum: action.selectedAlbum,
+			focusSearch: action.focusSearch,
 		}
 	}
 	return state

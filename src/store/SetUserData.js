@@ -1,6 +1,6 @@
 import { useDataLayerValue } from './DataLayer'
 import { useEffect } from 'react'
-import FormatData from './FormatData'
+import {FormatTracks, FormatArtists} from './FormatData'
 
 const SetUserData = () => {
 	const [{ token, spotify }, dispatch] = useDataLayerValue()
@@ -27,27 +27,17 @@ const SetUserData = () => {
 			})
 
 			const trackData = await spotify.getMyTopTracks()
-			const topTracks = FormatData({
-				type: 'FORMAT_TRACKS',
-				data: trackData.body.items,
-			})
+			const topTracks = FormatTracks(trackData.body.items)
 
 			const artistData = await spotify.getMyTopArtists()
-            console.log(artistData)
-			const topArtists = FormatData({
-				type: 'FORMAT_ARTISTS',
-				data: artistData.body.items,
-			})
+			const topArtists = FormatArtists(artistData.body.items)
 
 			const recommendedData = await spotify.getRecommendations({
 				min_energy: 0.4,
 				seed_artists: [topArtists[0].id, topArtists[1].id],
 				min_popularity: 10,
 			})
-			const recommendedSongs = FormatData({
-				type: 'FORMAT_TRACKS',
-				data: recommendedData.body.tracks,
-			})
+			const recommendedSongs = FormatTracks(recommendedData.body.tracks)
 			dispatch({
 				type: 'SET_RECOMMENDED',
 				recommended: {
@@ -59,29 +49,23 @@ const SetUserData = () => {
 
             //* get most recent song and make a queue of reccomendations
             const recentSongData = await spotify.getMyRecentlyPlayedTracks({limit:1})
-            const mostRecentSong = FormatData({
-                type: 'FORMAT_TRACKS',
-                data: [recentSongData.body.items[0].track]
-            })
+            const mostRecentSong = FormatTracks([recentSongData.body.items[0].track])
 
             const mostRecentSongRadioData = await spotify.getRecommendations({
                 min_energy: 0.4,
                 seed_artists: [mostRecentSong[0].artist.id],
                 min_popularity: 10,
             })
-            const mostRecentSongRadio = FormatData({
-                type: 'FORMAT_TRACKS',
-                data: mostRecentSongRadioData.body.tracks,
-            })
+            const mostRecentSongRadio = FormatTracks(mostRecentSongRadioData.body.tracks)
 
             dispatch({
                 type: 'SET_QUEUE',
                 queue: {
-                    type: 'relative',
                     tracks: [mostRecentSong[0], ...mostRecentSongRadio],
                 }
             })
 		}
+
 		setData()
 	}, [token.accessToken])
 }

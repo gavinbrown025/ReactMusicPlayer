@@ -5,7 +5,7 @@ import SpotifyPlayer from 'react-spotify-web-playback'
 import './Player.scss'
 
 import { useDataLayerValue } from '../../store/DataLayer'
-import FormatData from '../../store/FormatData'
+import { FormatTracks } from '../../store/FormatData'
 
 const styles = {
 	activeColor: 'red',
@@ -35,22 +35,16 @@ const Player = () => {
 			})
 	}, [currentlyPlaying])
 
-    console.log(playerOffset)
-
 	const playerCallback = async (state) => {
-        console.log(state)
-        dispatch({
-            type: 'SET_PLAY',
-            isPlaying: state.isPlaying,
-        })
+		dispatch({
+			type: 'SET_PLAY',
+			isPlaying: state.isPlaying,
+		})
 
-        if (!currentlyPlaying.track.id) return
-        if (state.type === 'track_update') {
-            const newCurrentData = await spotify.getTracks([state.track.id])
-            const newCurrentTrack = await FormatData({
-				type: 'FORMAT_TRACKS',
-				data: newCurrentData.body.tracks,
-			})
+		if (!currentlyPlaying.track.id) return
+		if (state.type === 'track_update') {
+			const newCurrentData = await spotify.getTracks([state.track.id])
+			const newCurrentTrack = await FormatTracks(newCurrentData.body.tracks)
 			await dispatch({
 				type: 'SET_CURRENT_TRACK',
 				currentlyPlaying: newCurrentTrack[0],
@@ -62,15 +56,15 @@ const Player = () => {
 	return (
 		<div className='player'>
 			<SpotifyPlayer
-                token={token.accessToken}
-                uris={queue.tracks.map((track) => track.track.uri)}
-                play={isPlaying}
-                callback={(state) => playerCallback(state)}
-                offset={playerOffset}
-                styles={styles}
-                magnifySliderOnHover={true}
-                showSaveIcon
-            />
+				token={token.accessToken}
+				uris={queue.tracks.map((track) => track.track.uri)}
+				play={isPlaying}
+				callback={(state) => playerCallback(state)}
+				offset={playerOffset}
+				styles={styles}
+				magnifySliderOnHover={true}
+				showSaveIcon
+			/>
 		</div>
 	)
 }

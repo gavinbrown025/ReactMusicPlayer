@@ -1,5 +1,4 @@
 const QueueHeader = ({ selectedQueue }) => {
-	console.log(selectedQueue)
 	return (
 		selectedQueue.data ? (
 			<div className='playlist-header'>

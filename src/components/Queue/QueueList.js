@@ -5,7 +5,6 @@ import QueueItem from './QueueItem'
 
 const QueueList = ({ type, selectedQueue }) => {
 	const [showLess, setShowLess] = useState(true)
-    // console.log(selectedQueue)
 	return (
 		<div className='queue-list-con'>
 			{type === 'artist' && (
@@ -22,7 +21,14 @@ const QueueList = ({ type, selectedQueue }) => {
 			<ul>
 				{selectedQueue.tracks.length &&
 					selectedQueue.tracks.map((track, index) =>
-                    <QueueItem key={track.track.uri} showLess={type === 'artist' && showLess} type={type} index={index} track={track} />)}
+                    <QueueItem
+                        track={track}
+                        selectedQueue={selectedQueue}
+                        key={track.track.uri}
+                        type={type}
+                        index={index}
+                        showLess={type === 'artist' && showLess}
+                    />)}
 			</ul>
 		</div>
 	)

@@ -1,7 +1,7 @@
 import { useDataLayerValue } from '../../store/DataLayer'
 import { Link } from 'react-router-dom'
 
-import FormatData from '../../store/FormatData'
+import {FormatTracks} from '../../store/FormatData'
 
 const PlayListItem = ({ playlist }) => {
 	const [{ spotify }, dispatch] = useDataLayerValue()
@@ -14,13 +14,11 @@ const PlayListItem = ({ playlist }) => {
 		const preFormat = await playlistSongsData.body.items.map((item) => {
 			return item.track
 		})
-		const playlistSongs = await FormatData({
-			type: 'FORMAT_TRACKS',
-			data: preFormat,
-		})
+		const playlistSongs = await FormatTracks(preFormat)
+
 		await dispatch({
-			type: 'SET_SELECTED_PLAYLIST',
-			selectedPlaylist: {
+			type: 'SET_SELECTED_QUEUE',
+			selectedQueue: {
 				tracks: playlistSongs,
 				data: {
 					name: playlist.name,
