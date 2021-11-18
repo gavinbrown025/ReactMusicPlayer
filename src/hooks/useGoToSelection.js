@@ -8,15 +8,17 @@ const useGoToSelection = () => {
 	const [{ spotify }, dispatch] = useDataLayerValue()
 
 	const goToArtist = async (id) => {
-		const artistAlbumsData = await spotify.getArtistAlbums(id)
-		const artistTopTracksData = await spotify.getArtistTopTracks(id, 'CA')
-		const artistSelectionData = await spotify.getArtist(id)
+        const results = await Promise.all([
+            spotify.getArtist(id),
+            spotify.getArtistTopTracks(id, 'CA'),
+            spotify.getArtistAlbums(id),
+        ])
 
-		const artistAlbums = await FormatAlbums(artistAlbumsData.body.items)
-		const artistTopTracks = await FormatTracks(artistTopTracksData.body.tracks)
-		const artistSelection = await FormatArtists([artistSelectionData.body])
+		const artistSelection = FormatArtists([results[0].body])
+		const artistTopTracks = FormatTracks(results[1].body.tracks)
+		const artistAlbums = FormatAlbums(results[2].body.items)
 
-		await dispatch({
+		dispatch({
 			type: 'SET_ARTIST',
 			selectedArtist: {
 				data: artistSelection[0],
@@ -43,8 +45,8 @@ const useGoToSelection = () => {
 			},
 		}))
 
-		const albumSongs = await FormatTracks(preFormat)
-		await dispatch({
+		const albumSongs = FormatTracks(preFormat)
+		dispatch({
 			type: 'SET_SELECTED_QUEUE',
 			selectedQueue: {
 				tracks: albumSongs,

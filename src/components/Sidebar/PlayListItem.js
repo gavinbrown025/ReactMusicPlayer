@@ -14,12 +14,12 @@ const PlayListItem = ({ playlist }) => {
 		const preFormat = await playlistSongsData.body.items.map((item) => {
 			return item.track
 		})
-		const playlistSongs = await FormatTracks(preFormat)
+		const playlistSongs = FormatTracks(await preFormat)
 
-		await dispatch({
+		dispatch({
 			type: 'SET_SELECTED_QUEUE',
 			selectedQueue: {
-				tracks: playlistSongs,
+				tracks: await playlistSongs,
 				data: {
 					name: playlist.name,
 					image: playlist.images[1].url,

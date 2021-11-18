@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-
 import SpotifyPlayer from 'react-spotify-web-playback'
 import './Player.scss'
 
@@ -19,21 +16,6 @@ const styles = {
 
 const Player = () => {
 	const [{ spotify, token, queue, isPlaying, currentlyPlaying, playerOffset }, dispatch] = useDataLayerValue()
-	const [lyrics, setLyrics] = useState('')
-
-	useEffect(() => {
-		if (!currentlyPlaying) return
-		axios
-			.get('http://localhost:5000/lyrics', {
-				params: {
-					track: currentlyPlaying.name,
-					artist: currentlyPlaying.artists,
-				},
-			})
-			.then((res) => {
-				setLyrics(res.data.lyrics)
-			})
-	}, [currentlyPlaying])
 
 	const playerCallback = async (state) => {
 		dispatch({

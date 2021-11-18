@@ -16,7 +16,7 @@ const scopes = [
     'user-modify-playback-state',
 ]
 
-const AUTH_URL = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=code`
+const AUTH_URL = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=code&dialog=true`
 
 const login = () => {
     return (
