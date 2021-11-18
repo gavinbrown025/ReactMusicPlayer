@@ -3,14 +3,15 @@ import { useEffect } from 'react'
 import { useDataLayerValue } from '../store/DataLayer'
 
 const production = true
-let url = 'http://localhost:5000'
-let redirectUri = 'http://localhost:3000/'
-
+let url
+let redirectUri
 if(production){
     url = 'https://music-server-gb.herokuapp.com'
     redirectUri = 'https://react-player-gb.herokuapp.com/'
+} else {
+    url = 'http://localhost:5000'
+    redirectUri = 'http://localhost:3000/'
 }
-
 const authEndpoint = 'https://accounts.spotify.com/authorize'
 const clientId = '8a7929a12fed4285ab9840e36fb2395c'
 const scopes = [
@@ -25,7 +26,6 @@ const scopes = [
     'user-read-playback-state',
     'user-modify-playback-state',
 ]
-
 export const AUTH_URL = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=code&dialog=true`
 
 

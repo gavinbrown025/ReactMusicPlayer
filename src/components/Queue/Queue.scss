@@ -52,55 +52,81 @@
 }
 
 .large-player {
-    height: 66vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    .track-con {
-        background: $black;
-        padding: 2rem 0 2rem 0;
-        height:100%;
-        width: 100%;
-        flex: 1 1 33%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .img-con{
-            flex: 1 1 60%;
-            img {
-                height: 100%;
-                object-fit: fill;
-                object-position: left;
+	background: $black;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	height: 66vh;
+	display: flex;
+	justify-content: space-between;
+	h3 {
+		font-size: 4rem;
+	}
+	.track-con {
+		flex: 1 1 auto;
+		display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 100%;
+		.img-con {
+			grid-area: 1/1;
+			img {
+				height: 100%;
+				object-fit: contain;
+			}
+		}
+		.track-meta {
+			grid-area: 1/2;
+			margin-left: 3rem;
+			align-self: center;
+			h3,
+			p {
+				margin-top: 0.5rem;
+			}
+			.artist-link {
+				font-size: 2rem;
+			}
+		}
+		&.hasLyrics {
+            grid-template-columns: auto;
+			grid-template-rows: 75% auto;
+			flex-direction: column;
+			text-align: center;
+			h3 {
+				font-size: 2rem;
+			}
+            p{
+                font-size: 1rem;
             }
-        }
-        .track-meta{
-            h3, p{
-                margin-top: .5rem;
+            .artist-link{
+                font-size: 1.5rem;
             }
-        }
-        &.row {
-            h3{font-size: 3rem;}
-            
-        }
-    }
-    .lyrics-con{
-        flex-grow: 1;
-        height: 100%;
-        padding-top: 2rem;
-        align-self: start;
-        display: flex;
-        display: flex;
-        justify-content: start;
-        overflow: overlay;
-        text-align: left;
-        p{
-            text-align: left;
-            white-space: pre;
-            line-height: 1.5rem
-        }
-    }
+			.img-con {
+				grid-area: 1/1;
+			}
+			.track-meta {
+				grid-area: 2/1;
+				margin-left: 0;
+			}
+		}
+	}
+	.lyrics-con {
+		padding-left: 3rem;
+		flex-grow: 1;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow: overlay;
+		text-align: left;
+		h3 {
+			margin-bottom: 1rem;
+            font-size: 2rem;
+		}
+		p {
+            font-size: 1rem;
+			text-align: left;
+			white-space: pre;
+			line-height: 1.5rem;
+		}
+	}
 }
 
 .queue-item {
