@@ -1,5 +1,4 @@
 import './Login.scss'
-
 import { AUTH_URL } from '../../hooks/useAuth'
 
 const login = () => {

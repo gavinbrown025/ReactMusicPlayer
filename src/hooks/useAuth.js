@@ -33,10 +33,7 @@ const useAuth = (code) => {
 	const [{ token }, dispatch] = useDataLayerValue()
 
 	useEffect(() => {
-		axios
-			.post(`${url}/login`, {
-				code,
-			})
+		axios.post(`${url}/login`, {code})
 			.then((res) => {
 				dispatch({
 					type: 'SET_TOKEN',
@@ -46,11 +43,11 @@ const useAuth = (code) => {
 						expiresIn: res.data.expiresIn,
 					},
 				})
-				window.history.pushState({}, null, '/') //* clears browser url
+				// window.history.pushState({}, null, '/') //* clears browser url
 			})
 			.catch((err) => {
 				console.log(err)
-				window.location = '/' //* sends back to root
+				// window.location = '/' //* sends back to root
 			})
 	}, [code, dispatch])
 
