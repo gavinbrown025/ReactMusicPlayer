@@ -3,12 +3,17 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { useDataLayerValue } from '../store/DataLayer'
 
+const SERVER_URL = 'https://music-server-gb.herokuapp.com'
+const DEV_URL = 'http://localhost:5000'
+
+const url = SERVER_URL
+
 const useAuth = (code) => {
 	const [{ token }, dispatch] = useDataLayerValue()
 
 	useEffect(() => {
 		axios
-			.post('http://localhost:5000/login', {
+			.post(`${url}/login`, {
 				code,
 			})
 			.then((res) => {
@@ -32,7 +37,7 @@ const useAuth = (code) => {
 		if (!token.refreshToken || !token.expiresIn) return //* only run if they have value
 		const interval = setInterval(() => {
 			axios
-				.post('http://localhost:5000/refresh', {
+				.post(`${url}/refresh`, {
 					refreshToken: token.refreshToken,
 				})
 				.then((res) => {
