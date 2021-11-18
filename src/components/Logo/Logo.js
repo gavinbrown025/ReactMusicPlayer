@@ -1,9 +1,10 @@
 import './Logo.scss';
+import logo from '../../assets/images/altologo.png'
 
 const Logo = () => {
     return (
         <div className="logo">
-            Logo
+            <img src={logo} alt="" />
         </div>
     )
 }

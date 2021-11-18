@@ -19,39 +19,44 @@ export const initialState = {
 		artists: [],
 		recommended: [],
 	},
-    focusSearch: false,
 	searchResults: {
-		tracks: [],
+        tracks: [],
 		artists: [],
 		albums: [],
 	},
-    selectedQueue: {
-        data:{},
-        tracks: [],
-    },
+	selectedQueue: {
+        data: {},
+		tracks: [],
+	},
 	selectedArtist: {
         data: {},
 		tracks: [],
 		albums: [],
 	},
-	isPlaying: false,
+    queue: {
+        tracks: [],
+    },
 	currentlyPlaying: {
-		track: {},
+        track: {},
 		artist: {},
 		album: {},
 	},
-	queue: {
-		name: 'Queue',
-		tracks: [],
-	},
+	isPlaying: false,
 	playerOffset: 0,
+    focusSearch: null,
+    isLargePlayer: false
 }
 
 const reducer = (state, action) => {
-	if (action.type === 'SET_USER') {
+	console.log(action.type)
+	if (action.type === 'SET_INITIAL') {
 		return {
 			...state,
 			user: action.user,
+			myPlaylists: action.myPlaylists,
+			recommended: action.recommended,
+			queue: { tracks: action.recents },
+			currentlyPlaying: action.recents[0],
 		}
 	}
 	if (action.type === 'SET_TOKEN') {
@@ -70,62 +75,56 @@ const reducer = (state, action) => {
 			searchResults: action.searchResults,
 		}
 	}
-	if (action.type === 'SET_PLAYLISTS') {
-		return {
-			...state,
-			myPlaylists: action.myPlaylists,
-		}
-	}
-	if (action.type === 'SET_RECOMMENDED') {
-		return {
-			...state,
-			recommended: action.recommended,
-		}
-	}
 	if (action.type === 'SET_QUEUE') {
 		let currentlyPlaying = action.offset ? action.queue.tracks[action.offset] : action.queue.tracks[0]
-        let playerOffset = action.offset ? action.offset : 0
-        return {
+		let playerOffset = action.offset ? action.offset : 0
+		return {
 			...state,
 			queue: action.queue,
 			currentlyPlaying,
 			playerOffset,
 		}
 	}
+    if (action.type === 'SET_ARTIST') {
+        return {
+            ...state,
+            selectedArtist: action.selectedArtist,
+        }
+    }
+    if (action.type === 'SET_SELECTED_QUEUE') {
+        return {
+            ...state,
+            selectedQueue: action.selectedQueue,
+        }
+    }
+    if (action.type === 'SET_CURRENT_TRACK') {
+        return {
+            ...state,
+            currentlyPlaying: action.currentlyPlaying,
+        }
+    }
 	if (action.type === 'SET_PLAY') {
 		return {
 			...state,
 			isPlaying: action.isPlaying,
 		}
 	}
-	if (action.type === 'SET_CURRENT_TRACK') {
-		return {
-			...state,
-			currentlyPlaying: action.currentlyPlaying,
-		}
-	}
-	if (action.type === 'SET_PLAYER_OFFSET') {
-		return {
-			...state,
-			playerOffset: action.playerOffset,
-		}
-	}
-	if (action.type === 'SET_ARTIST') {
-		return {
-			...state,
-			selectedArtist: action.selectedArtist,
-		}
-	}
-	if (action.type === 'SET_SELECTED_QUEUE') {
-		return {
-			...state,
-			selectedQueue: action.selectedQueue,
-		}
-	}
+    if (action.type === 'SET_PLAYER_OFFSET') {
+        return {
+            ...state,
+            playerOffset: action.playerOffset,
+        }
+    }
 	if (action.type === 'SET_FOCUS_SEARCH') {
 		return {
 			...state,
 			focusSearch: action.focusSearch,
+		}
+	}
+	if (action.type === 'SET_LARGE_PLAYER') {
+		return {
+			...state,
+			isLargePlayer: action.isLargePlayer,
 		}
 	}
 	return state

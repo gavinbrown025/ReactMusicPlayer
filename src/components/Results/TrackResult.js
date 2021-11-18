@@ -3,14 +3,14 @@ import { useDataLayerValue } from '../../store/DataLayer'
 import { FormatTracks } from '../../store/FormatData'
 import useGoToSelection from '../../hooks/useGoToSelection'
 
-
 const Track = ({ track }) => {
 	const [{ spotify }, dispatch] = useDataLayerValue()
-    const { goToArtist, goToAlbum } = useGoToSelection()
+	const { goToArtist, goToAlbum } = useGoToSelection()
 
 	const handlePlay = async (e) => {
-        if(e.target.className === 'artist-link') return goToArtist(track.artist.id)
-        if(e.target.className === 'album-link') return goToAlbum(track.album)
+		if (e.target.className === 'artist-link') return goToArtist(track.artist.id)
+		if (e.target.className === 'album-link') return goToAlbum(track.album)
+
 		const trackRadioData = await spotify.getRecommendations({
 			min_energy: 0.4,
 			seed_artists: [track.artist.id],
@@ -20,9 +20,7 @@ const Track = ({ track }) => {
 
 		await dispatch({
 			type: 'SET_QUEUE',
-			queue: {
-				tracks: [track, ...trackRadio],
-			},
+			queue: { tracks: [track, ...trackRadio] },
 		})
 		await dispatch({
 			type: 'SET_PLAY',

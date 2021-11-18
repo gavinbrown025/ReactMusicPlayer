@@ -1,6 +1,4 @@
-import { useDataLayerValue } from '../../store/DataLayer'
 import { useState } from 'react'
-
 import QueueItem from './QueueItem'
 
 const QueueList = ({ type, selectedQueue }) => {
@@ -19,7 +17,7 @@ const QueueList = ({ type, selectedQueue }) => {
 				<h3>Length</h3>
 			</div>
 			<ul>
-				{selectedQueue.tracks.length &&
+				{selectedQueue.tracks.length !== 0 &&
 					selectedQueue.tracks.map((track, index) =>
                     <QueueItem
                         track={track}

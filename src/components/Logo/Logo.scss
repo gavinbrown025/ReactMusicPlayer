@@ -1,8 +1,9 @@
 .logo{
     background: #000;
+    padding: 1rem 3rem 0 3rem;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-weight: bold;
-    font-size: 2rem;
+    img{
+        height:3rem;
+    }
 }

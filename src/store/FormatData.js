@@ -19,6 +19,7 @@ const formatTime = (time) => {
 }
 
 export const FormatTracks = (data) => {
+    console.log(data)
 	return data.map((track) => {
 		const albumCovers = sortImageSize(track.album.images)
 		return {
@@ -76,7 +77,7 @@ export const FormatAlbums = (data) => {
 			name: album.name,
 			uri: album.uri,
 			totalTracks: album.total_tracks,
-			releaseDate: album.release_date,
+			releaseDate: new Date(album.release_date).toDateString(),
 			cover: {
 				thumb: albumCovers[0].url,
 				small: albumCovers[1].url,

@@ -1,29 +1,16 @@
 import { useDataLayerValue } from '../../store/DataLayer'
+import Results from '../Results/Results'
 
 import './HomeView.scss'
-
-import TrackResult from '../Results/TrackResult'
-import ArtistResult from '../Results/ArtistResult'
 
 const HomeView = () => {
 	const [{ recommended, user }] = useDataLayerValue()
 	return (
 		<section className='home-view'>
 			<h2>Welcome to Alto</h2>
-			<div className='recommended'>
-				<h3>Top Tracks For {user.name}</h3>
-				<div className='sub-results-con'>
-					{recommended.recommended.length === 0 ? <h4>No Tracks Found</h4> : recommended.recommended.map((track) => <TrackResult key={track.track.uri} track={track} />)}
-				</div>
-			</div>
-			<div className='recommended'>
-				<h3>Top Artists for {user.name}</h3>
-				<div className='sub-results-con'>{recommended.artists.length === 0 ? <h4>No Tracks Found</h4> : recommended.artists.map((artist) => <ArtistResult key={artist.uri} artist={artist} />)}</div>
-			</div>
-			<div className='recommended'>
-				<h3>{user.name}'s Favourites</h3>
-				<div className='sub-results-con'>{recommended.tracks.length === 0 ? <h4>No Tracks Found</h4> : recommended.tracks.map((track) => <TrackResult key={track.track.uri} track={track} />)}</div>
-			</div>
+			<Results data={{ title: `Top Tracks For ${user.name}`, type: 'Tracks', items: recommended.recommended }} />
+			<Results data={{ title: `Top Artists For ${user.name}`, type: 'Artists', items: recommended.artists }} />
+			<Results data={{ title: `${user.name}'s Favourite Tracks`, type: 'Tracks', items: recommended.tracks }} />
 		</section>
 	)
 }

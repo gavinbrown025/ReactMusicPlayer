@@ -1,42 +1,17 @@
-import './SearchView.scss'
-
+import Results from '../Results/Results'
 import { useDataLayerValue } from '../../store/DataLayer'
 
-import TrackResult from '../Results/TrackResult'
-import ArtistResult from '../Results/ArtistResult'
-import AlbumResult from '../Results/AlbumResult'
+import './SearchView.scss'
 
-const SearchView = ({ chooseTrack }) => {
-
-    const [{ searchResults }] = useDataLayerValue()
+const SearchView = () => {
+	const [{ searchResults }] = useDataLayerValue()
 
 	return (
 		<div className='search-results-con'>
 			<h2>Search Results:</h2>
-			<div className='sub-results-con'>
-				<h3 className='search-results-title'>Songs</h3>
-				{!searchResults.tracks.length === 0 ?
-                    <h3>No tracks found</h3> :
-                    searchResults.tracks.map((track) =>
-                        <TrackResult chooseTrack={chooseTrack} key={track.track.uri} track={track} />
-                    )}
-			</div>
-			<div className='sub-results-con'>
-				<h3 className='search-results-title'>Artists</h3>
-				{!searchResults.artists.length === 0 ?
-                    <h3>No Artists Found</h3> :
-                    searchResults.artists.map((artist) =>
-                        <ArtistResult key={artist.uri} artist={artist} />
-                    )}
-			</div>
-			<div className='sub-results-con'>
-				<h3 className='search-results-title'>Albums</h3>
-				{!searchResults.albums.length === 0 ?
-                    <h3>No Albums Found</h3> :
-                    searchResults.albums.map((album) =>
-                        <AlbumResult key={album.uri} album={album} />
-                    )}
-			</div>
+			<Results data={{ type: 'Tracks', items: searchResults.tracks }} />
+			<Results data={{ type: 'Artists', items: searchResults.artists }} />
+			<Results data={{ type: 'Albums', items: searchResults.albums }} />
 		</div>
 	)
 }
