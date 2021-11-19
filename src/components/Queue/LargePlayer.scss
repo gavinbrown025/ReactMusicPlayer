@@ -1,0 +1,94 @@
+@import '../../styles/vars.scss';
+
+.large-player {
+	background: $black;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	height: 66vh;
+	display: flex;
+	justify-content: space-between;
+	h3 {
+		font-size: 4rem;
+	}
+	a {
+        cursor:default;
+        display: inline-block;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border: 1px white solid;
+        border-radius: 8px;
+		background: #000;
+        height:max-content;
+        &:hover:not(.none) {
+            cursor: pointer;
+            background: $green;
+        }
+    }
+	.track-con {
+		flex: 1 1 auto;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: 100%;
+		.img-con {
+			grid-area: 1/1;
+			img {
+				height: 100%;
+				object-fit: contain;
+			}
+		}
+		.track-meta {
+			grid-area: 1/2;
+			margin-left: 3rem;
+			align-self: center;
+			h3,
+			p {
+				margin-bottom: .5rem;
+			}
+			.artist-link {
+				font-size: 2rem;
+			}
+		}
+		&.hasLyrics {
+			grid-template-columns: auto;
+			grid-template-rows: 75% auto;
+			flex-direction: column;
+			text-align: center;
+			h3 {
+				font-size: 2rem;
+			}
+			p {
+				font-size: 1rem;
+			}
+			.artist-link {
+				font-size: 1.5rem;
+			}
+			.track-meta {
+				grid-area: 2/1;
+				margin-left: 0;
+			}
+		}
+	}
+	.lyrics-con {
+		padding-left: 3rem;
+		flex-grow: 1;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+		h3 {
+			margin-bottom: 1rem;
+			font-size: 2rem;
+            display: flex;
+            align-items: center;
+            a{margin-left: 1rem;}
+		}
+		p {
+            margin-bottom: 0;
+            overflow: overlay;
+			font-size: 1rem;
+			text-align: left;
+			white-space: pre;
+			line-height: 1.5rem;
+		}
+	}
+}

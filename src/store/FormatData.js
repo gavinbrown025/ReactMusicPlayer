@@ -19,7 +19,6 @@ const formatTime = (time) => {
 }
 
 export const FormatTracks = (data) => {
-    console.log(data)
 	return data.map((track) => {
 		const albumCovers = sortImageSize(track.album.images)
 		return {

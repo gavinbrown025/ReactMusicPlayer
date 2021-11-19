@@ -1,50 +1,53 @@
 @import '../../styles/vars.scss';
 
-.sidebar{
-    height: calc(100vh - 96px);
-    background: #000;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.sidebar {
+	height: calc(100vh - 96px);
+	background: #000;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
-nav, .my-playlists {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    ul {
-        width: 80%;
-        padding: 0.5rem;
-        li {
-            padding: .75rem;
-            cursor: pointer;
-            transition: all 200ms ease;
-            &:hover{
-                background: $dk-grey;
-            }
-        }
-    }
+nav,
+.my-playlists {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	ul {
+		a {
+			display: block;
+		}
+		width: 80%;
+		padding: 0.5rem;
+		li {
+			padding: 0.75rem;
+			cursor: pointer;
+			transition: all 200ms ease;
+			&:hover {
+				background: $dk-grey;
+			}
+		}
+	}
 }
-nav ul{
-    border-bottom: 2px solid rgb(83, 84, 85);
+nav ul {
+	border-bottom: 2px solid rgb(83, 84, 85);
 }
 
-.my-playlists{
-    flex-grow: 1;
-    font-size: .9rem;
-    overflow:overlay;
+.my-playlists {
+	flex-grow: 1;
+	font-size: 0.9rem;
+	overflow: overlay;
 }
 
 .player-preview {
-    padding-top: 1rem;
-    min-height: 240px;
-    overflow: hidden;
-    border-top: 2px solid rgb(83, 84, 85);
-    img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+	padding-top: 1rem;
+	min-height: 240px;
+	overflow: hidden;
+	border-top: 2px solid rgb(83, 84, 85);
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 }
-
