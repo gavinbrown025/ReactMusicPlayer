@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useDataLayerValue } from '../store/DataLayer'
 
-const production = false
+const production = true
 let url
 let redirectUri
 if(production){
