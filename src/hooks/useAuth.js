@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useDataLayerValue } from '../store/DataLayer'
 
-const production = true
+const production = false
 let url
 let redirectUri
 if(production){
@@ -43,11 +43,11 @@ const useAuth = (code) => {
 						expiresIn: res.data.expiresIn,
 					},
 				})
-				// window.history.pushState({}, null, '/') //* clears browser url
+				window.history.pushState({}, null, '/') //* clears browser url
 			})
 			.catch((err) => {
 				console.log(err)
-				// window.location = '/' //* sends back to root
+				window.location = '/' //* sends back to root
 			})
 	}, [code, dispatch])
 

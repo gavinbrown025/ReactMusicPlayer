@@ -1,9 +1,12 @@
 .logo{
-    background: #000;
     padding: 1rem 3rem 0 3rem;
     display: flex;
     align-items: center;
     img{
         height:3rem;
+    }
+    &.home{
+        padding:0 0 1rem 0;
+        img{height: 4rem;}
     }
 }

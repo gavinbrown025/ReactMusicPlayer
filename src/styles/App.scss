@@ -1,17 +1,8 @@
 @import 'vars.scss';
 @import 'defaults.scss';
 
-.container {
-    width: 100%;
-	max-width: 1440px;
-    margin:0 auto;
-	padding: 0 5rem 0 5rem;
-}
-
-.lyrics {
-	margin-bottom:3rem;
-    text-align: center;
-	white-space: pre;
+.hidden{
+    display: none;
 }
 
 .artist-link:hover, .album-link:hover{

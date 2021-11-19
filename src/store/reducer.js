@@ -48,7 +48,6 @@ export const initialState = {
 }
 
 const reducer = (state, action) => {
-	console.log(action.type)
 	if (action.type === 'SET_INITIAL') {
 		return {
 			...state,
