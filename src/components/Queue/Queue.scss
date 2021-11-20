@@ -6,6 +6,9 @@
 	h3 {
 		font-size: 0.9rem;
 	}
+    .artist-popular{
+        margin-top: .5rem;
+    }
 }
 
 .queue-list-header {
@@ -78,9 +81,12 @@
 			justify-content: space-evenly;
 		}
 	}
-	.album-link {
-		width: 45%;
-	}
+    .album-link-con{
+        width: 45%;
+        .album-link {
+            width: max-content;
+        }
+    }
 	.track-number {
 		display: flex;
 		justify-content: center;

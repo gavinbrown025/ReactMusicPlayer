@@ -54,6 +54,7 @@ const useGoToSelection = () => {
 					name: album.name,
 					image: album.cover.small,
 					author: album.artist.name,
+                    artistId: album.artist.id,
 					releaseDate: album.releaseDate,
 					totalTracks: album.totalTracks,
 				},
