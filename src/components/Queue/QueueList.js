@@ -8,7 +8,6 @@ const QueueList = ({ type, selectedQueue }) => {
 			{type === 'artist' && (
 				<div className='artist-popular'>
 					<h3>Popular Tracks</h3>
-					{showLess ? <button onClick={() => setShowLess(false)}>Show More</button> : <button onClick={() => setShowLess(true)}>Show Less</button>}
 				</div>
 			)}
 			<div className='queue-list-header'>
@@ -28,6 +27,11 @@ const QueueList = ({ type, selectedQueue }) => {
                         showLess={type === 'artist' && showLess}
                     />)}
 			</ul>
+            {type === 'artist' && (
+				<div className='artist-popular'>
+					{showLess ? <button onClick={() => setShowLess(false)}>Show More</button> : <button onClick={() => setShowLess(true)}>Show Less</button>}
+				</div>
+			)}
 		</div>
 	)
 }

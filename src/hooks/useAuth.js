@@ -1,39 +1,14 @@
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useDataLayerValue } from '../store/DataLayer'
-
-const production = true
-let url
-let redirectUri
-if(production){
-    url = 'https://music-server-gb.herokuapp.com'
-    redirectUri = 'https://react-player-gb.herokuapp.com/'
-} else {
-    url = 'http://localhost:5000'
-    redirectUri = 'http://localhost:3000/'
-}
-const authEndpoint = 'https://accounts.spotify.com/authorize'
-const clientId = '8a7929a12fed4285ab9840e36fb2395c'
-const scopes = [
-    'streaming',
-    'user-top-read',
-    'user-read-email',
-    'user-read-private',
-    'user-library-read',
-    'user-library-modify',
-    'user-read-currently-playing',
-    'user-read-recently-played',
-    'user-read-playback-state',
-    'user-modify-playback-state',
-]
-export const AUTH_URL = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=code&dialog=true`
-
+import { SERVER_URL } from '../store/AUTH_URL'
 
 const useAuth = (code) => {
 	const [{ token }, dispatch] = useDataLayerValue()
 
 	useEffect(() => {
-		axios.post(`${url}/login`, {code})
+		axios
+			.post(`${SERVER_URL}/login`, { code })
 			.then((res) => {
 				dispatch({
 					type: 'SET_TOKEN',
@@ -55,7 +30,7 @@ const useAuth = (code) => {
 		if (!token.refreshToken || !token.expiresIn) return //* only run if they have value
 		const interval = setInterval(() => {
 			axios
-				.post(`${url}/refresh`, {
+				.post(`${SERVER_URL}/refresh`, {
 					refreshToken: token.refreshToken,
 				})
 				.then((res) => {
@@ -76,7 +51,6 @@ const useAuth = (code) => {
 
 		return () => clearInterval(interval)
 	}, [token.refreshToken, token.expiresIn, dispatch]) //* restart timer when these change
-
 }
 
 export default useAuth

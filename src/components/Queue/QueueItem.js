@@ -50,10 +50,12 @@ const QueueItem = ({ track, index, showLess, type, selectedQueue }) => {
 				{type !== 'album' ? <img src={track.album.cover.thumb} alt='' /> : <div className='track-number'>{index + 1}</div>}
 				<div className='track-name'>
 					<h4>{track.track.name}</h4>
-					{type !== 'artist' && <p className='artist-link'>{track.artist.name}</p>}
+					{(type === 'queue' || type === 'playlist') && <p className='artist-link'>{track.artist.name}</p>}
 				</div>
 			</div>
-			<div className='album-link'>{track.album.name}</div>
+			<div className='album-link-con'>
+				<p className='album-link'>{track.album.name}</p>
+			</div>
 			<div className='track-duration'>{track.track.duration}</div>
 		</li>
 	)

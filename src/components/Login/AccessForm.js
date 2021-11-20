@@ -37,7 +37,7 @@ const AccessForm = () => {
 				<Input type={'email'} name={'user_email'} required={true} />
 				<label>Reply Email (if different)</label>
 				<Input type={'email'} name={'reply_email'} required={false} />
-				<div className="submit-con">
+				<div className='submit-con'>
 					<span>{emailResponse}</span>
 					<button type='submit'>Submit</button>
 				</div>
