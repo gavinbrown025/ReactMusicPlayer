@@ -1,7 +1,7 @@
 export let SERVER_URL= 'https://music-server-gb.herokuapp.com'
 let REDIRECT_URI= 'https://react-player-gb.herokuapp.com/'
 
-const DEV_ENV = true
+const DEV_ENV = false
 if(DEV_ENV){
     SERVER_URL = 'http://localhost:5000'
     REDIRECT_URI = 'http://localhost:3000/'
