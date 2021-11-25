@@ -44,7 +44,8 @@ export const initialState = {
 	isPlaying: false,
 	playerOffset: 0,
     focusSearch: null,
-    isLargePlayer: false
+    isLargePlayer: false,
+    showMenu: false
 }
 
 const reducer = (state, action) => {
@@ -124,6 +125,12 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			isLargePlayer: action.isLargePlayer,
+		}
+	}
+	if (action.type === 'SET_SHOW_MENU') {
+		return {
+			...state,
+			showMenu: !state.showMenu,
 		}
 	}
 	return state

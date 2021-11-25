@@ -2,11 +2,11 @@
 
 .login-con {
 	margin: 0 auto;
-    padding: 5rem 0;
 	max-width: 1200px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	flex-wrap: wrap;
 	a:not(.mailto) {
 		margin-top: 1rem;
 		background-color: $green;
@@ -18,64 +18,86 @@
 	li,
 	h3,
 	h2 {
-        margin-bottom: 0.5rem;
+		margin-bottom: 0.5rem;
 	}
+}
+.login-header {
+	flex-basis: 100%;
+    display: flex;
+    align-items: center;
+	.spotify-link {
+        height:fit-content;
+	}
+	.logo {
+		justify-content: center;
+		background: transparent;
+		padding: 2rem 3rem;
+		img {
+			height: 4rem;
+		}
+	}
+}
+.app-desc,
+.form-con {
+	flex: 1 1 50%;
+	min-width: 325px;
+	padding: 1.5rem 3rem;
 }
 
 .app-desc {
-    width: 50%;
-	padding: 0 3rem;
 	h1 {
-        margin-bottom: 1.5rem;
+		margin-bottom: 1.5rem;
 	}
-    p{margin-bottom: 1rem;}
+	p {
+		margin-bottom: 1rem;
+	}
 	ul {
-        list-style: disc;
+		list-style: disc;
 		padding-left: 1.2rem;
 	}
-    li,
+	li,
 	p {
-        line-height: 1.5rem;
+		line-height: 1.5rem;
 	}
 }
 .form-con {
-    align-self: flex-start;
+	align-self: flex-start;
 	background: #000;
-	width: 360px;
-	padding: 2rem 3rem;
-    p{
-        font-size: 1rem;
-        line-height: 1.2rem;
-        margin-bottom: 1rem;
-    }
-    .mailto{text-decoration: underline;}
+	p {
+		font-size: 1rem;
+		line-height: 1.2rem;
+		margin-bottom: 1rem;
+	}
+	.mailto {
+		text-decoration: underline;
+		margin-bottom: 1rem;
+	}
 }
 .contact-form {
 	display: flex;
 	flex-direction: column;
 	input {
-        color: $black;
+		color: $black;
 		background: #ddd;
 		margin-bottom: 1rem;
-		padding: .75rem;
+		padding: 0.75rem;
 	}
-    input.filled:invalid{
-        background: rgba(252, 183, 183, 0.918);
-    }
+	input.filled:invalid {
+		background: rgba(252, 183, 183, 0.918);
+	}
 	label {
 		margin-bottom: 0.5rem;
 		margin-left: 0.5rem;
 		font-size: 0.9rem;
 		font-weight: 600;
 	}
-    .submit-con{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+	.submit-con {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 	button {
 		width: 120px;
 		align-self: flex-end;
 	}
-
 }

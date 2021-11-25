@@ -1,11 +1,23 @@
 @import 'vars.scss';
 @import 'defaults.scss';
+@import 'mobile.scss';
 
-.hidden{
-    display: none;
+.hidden {
+	display: none;
 }
 
-.artist-link:hover, .album-link:hover{
-    cursor: pointer;
-    text-decoration: underline;
+.menu-overlay {
+    display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+    &.show{
+        display: block;
+    }
+}
+
+.artist-link:hover,
+.album-link:hover {
+	cursor: pointer;
+	text-decoration: underline;
 }

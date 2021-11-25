@@ -1,0 +1,10 @@
+.logo{
+    display: flex;
+    align-items: center;
+    img{
+        height:3rem;
+    }
+    &.home {
+        padding: 1.5rem 3rem .75rem 3rem;
+    }
+}

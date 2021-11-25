@@ -1,12 +1,13 @@
 @import '../../styles/vars.scss';
 
 .sidebar {
-	height: calc(100vh - 96px);
+	height: calc(100vh - 52px);
 	background: #000;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 nav,
@@ -15,11 +16,11 @@ nav,
 	flex-direction: column;
 	align-items: center;
 	ul {
+        width: 80%;
+        padding: 0.5rem 0;
 		a {
 			display: block;
 		}
-		width: 80%;
-		padding: 0.5rem;
 		li {
 			padding: 0.75rem;
 			cursor: pointer;
@@ -50,4 +51,21 @@ nav ul {
 		height: 100%;
 		object-fit: cover;
 	}
+}
+
+@media screen and (max-width:768px){
+    .grid-container .sidebar{
+        position: absolute;
+        z-index: 2;
+        left: -105%;
+        height: calc(100vh - 52px);
+        width: 200px;
+        transition: all 800ms ease;
+        &.show-menu{
+            left: 0%;
+        }
+        .player-preview {
+            min-height:200px;
+        }
+    }
 }
