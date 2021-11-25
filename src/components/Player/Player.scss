@@ -1,24 +1,68 @@
+.player {
+	box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.5);
+}
+
 ._ContentRSWP {
-    width: 100%;
-    position: relative;
-    flex-direction: row;
-    > div:first-child {
-        width: auto;
-    }
-    ._ControlsRSWP{
-        z-index: 1000;
-        width: 100%;
-    }
-    ._ActionsRSWP{
-        position: absolute;
-        right: 1rem;
-    }
+	width: 100%;
+	position: relative;
+	flex-direction: row;
+	justify-content: space-between;
+	> div:first-child {
+		flex: 0 0 30%;
+	}
+	._ControlsRSWP {
+		flex: 0 0 30%;
+	}
+	._ActionsRSWP {
+		width: auto;
+		flex: 0 1 30%;
+		@media screen and (max-width: 1023px) {
+			position: relative;
+		}
+	}
 }
-.rswp__active{
-    img {display: none;}
+
+.rswp__active {
+	border: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	img {
+		display: none;
+	}
 }
-.__14p65xk{
-    position: absolute;
-    left: 0;
-    width: auto;
+.__14p65xk {
+	width: auto;
+}
+
+@media screen and (max-width: 596px) {
+	._ContentRSWP {
+		flex-wrap: wrap;
+		> div:first-child {
+			flex: 1 1 100%;
+            border-bottom: 1px solid rgb(83, 84, 85);
+		}
+		._ActionsRSWP {
+			flex-basis: auto;
+		}
+		._ControlsRSWP {
+            flex-grow: 1;
+            margin-left: 48px;
+		}
+
+		.rswp__active img {
+			display: inherit;
+		}
+		.__nnvdcq {
+            display: flex;
+            justify-content: center;
+			width: 100%;
+            margin-right: 48px;
+			p {
+				width: auto;
+                font-size: 1rem;
+                font-weight: 500;
+			}
+            button {display: none;}
+		}
+	}
 }

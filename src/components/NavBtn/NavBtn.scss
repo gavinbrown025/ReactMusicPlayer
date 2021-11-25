@@ -1,0 +1,11 @@
+@import '../../styles/vars.scss';
+
+.nav-btn svg path:last-child {
+	fill: $green;
+}
+
+@media screen and (min-width: 768px) {
+	.nav-btn {
+		display: none;
+	}
+}

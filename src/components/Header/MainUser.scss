@@ -27,3 +27,10 @@
         }
     }
 }
+
+@media screen and (max-width:768px){
+    .main-user{
+        padding: 0;
+        h4{display: none;}
+    }
+}
